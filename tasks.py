@@ -131,12 +131,21 @@ def mypy(c):
     _run(c, f"poetry run mypy {PYTHON_TARGETS_STR}")
 
 
-@task()
-def tests(c):
-    # type: (Context) -> None
+@task(
+    help={
+        "quiet": "Supress test warnings.",
+        "disable_warnings": "Disable pytest warnings.",
+    }
+)
+def tests(c, quiet=False, disable_warnings=True):
+    # type: (Context, bool, bool) -> None
     """Run tests."""
     pytest_options = ["--xdoctest", "--cov", "--cov-report=", "--cov-fail-under=0"]
-    _run(c, f"poetry run pytest {' '.join(pytest_options)} {TEST_DIR} {SOURCE_DIR}")
+    _run(
+        c,
+        f"poetry run pytest {' '.join(pytest_options)} {TEST_DIR} {SOURCE_DIR} "
+        f"{'-q' if quiet else ''} {'--disable-pytest-warnings' if disable_warnings else ''}",
+    )
 
 
 @task(
