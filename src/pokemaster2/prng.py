@@ -1,5 +1,5 @@
 """Provides the pseudo-random number generator used in various places."""
-from typing import Generator, List, Tuple, TypeVar, Union
+from typing import Generator, List, Tuple, TypeVar
 
 import attr
 

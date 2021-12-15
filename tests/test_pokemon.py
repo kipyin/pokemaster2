@@ -1,8 +1,5 @@
 """Tests for `pokemaster2.pokemon` module."""
-
-import pytest
-
-from pokemaster2.pokemon import BasePokemon, Stats
+from pokemaster2.pokemon import Stats
 
 
 def test_stats_add() -> None:
