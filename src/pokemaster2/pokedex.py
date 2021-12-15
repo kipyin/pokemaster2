@@ -1,9 +1,4 @@
-"""Query helpers.
-
-Make simple queries in a breeze anywhere, any time. Note that tables
-should not be passed as arguments! That'll defeat the purpose of this
-module.
-"""
+"""The pokedex database models."""
 import peewee
 
 db = peewee.SqliteDatabase(":memory:")
@@ -35,7 +30,7 @@ class Pokemon(BaseModel):
         max_length=79,
         help_text="An identifier, including form iff this row corresponds to a single, named form",
     )
-    species_id = peewee.ForeignKeyField(
+    species = peewee.DeferredForeignKey(
         "PokemonSpecies",
         backref="pokemon",
         help_text="ID of the species this Pokémon belongs to",
