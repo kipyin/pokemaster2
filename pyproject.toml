@@ -9,7 +9,7 @@ readme = "README.md"
 homepage = "https://github.com/kipyin/pokemaster2"
 repository = "https://github.com/kipyin/pokemaster2"
 documentation = "https://pokemaster2.readthedocs.io"
-keywords = ["pokemaster2"]
+keywords = ["pokemaster2", "pokemon", "pokedex", "pokemaster"]
 classifiers=[
     "Development Status :: 2 - Pre-Alpha",
     "Intended Audience :: Developers",
@@ -35,9 +35,11 @@ pokemaster2 = 'pokemaster2.cli:main'
 
 
 [tool.poetry.dependencies]
-python = "<3.11,>=3.7"
+python = "<3.11,>=3.8"
 
 click = "^8.0.3"
+attrs = "^21.2.0"
+Django = "^4.0"
 
 
 [tool.poetry.dev-dependencies]
@@ -106,6 +108,8 @@ darglint = ["+*"]
 
 [tool.flakehell.exceptions."tests/"]
 flake8-bandit = ["-S101"]
+flake8-annotations = ["-ANN201"]
+flake8-docstrings = ["-D103"]
 
 [tool.isort]
 multi_line_output = 3
@@ -117,7 +121,7 @@ known_third_party = ["invoke", "nox"]
 
 [tool.black]
 line-length = 99
-target-version = ["py37"]
+target-version = ["py38"]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
