@@ -111,6 +111,9 @@ flake8-bandit = ["-S101"]
 flake8-annotations = ["-ANN201"]
 flake8-docstrings = ["-D103"]
 
+[tool.flakehell.exceptions."src/pokemaster2/database.py"]
+pycodestyle = ["-E501"]
+
 [tool.isort]
 multi_line_output = 3
 include_trailing_comma = true
