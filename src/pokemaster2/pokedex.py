@@ -1,4 +1,6 @@
 """The pokedex database models."""
+from typing import List
+
 import peewee
 
 db = peewee.SqliteDatabase(":memory:")
@@ -130,3 +132,14 @@ class PokemonSpecies(BaseModel):
         index=True,
         help_text="The order in which species should be sorted for Pokémon Conquest-related tables.  Matches gallery order.",
     )
+
+
+def get_pokemon(identifier: str) -> List[Pokemon]:
+    """Find a single `Pokemon` instance."""
+    pokemon_set = (
+        Pokemon.select(Pokemon, PokemonSpecies)
+        .join(PokemonSpecies)
+        .where(Pokemon.identifier == identifier)
+    )
+
+    return pokemon_set
