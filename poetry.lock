@@ -407,6 +407,14 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
 [[package]]
+name = "importlib"
+version = "1.0.4"
+description = "Backport of importlib.import_module() from Python 2.7"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "iniconfig"
 version = "1.1.1"
 description = "iniconfig: brain-dead simple config-ini parsing"
@@ -982,7 +990,7 @@ tests = ["codecov", "scikit-build", "cmake", "ninja", "pybind11", "pytest", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "<3.11,>=3.8"
-content-hash = "cbae43dd31706be4d4be71194026e9a4dea55dcf8d66e73a991f4b62f24eadf0"
+content-hash = "fcc090cc4cebc11a02f263996816550ba03c3fb7eb74ea3d4e38e5261da281ee"
 
 [metadata.files]
 alabaster = [
@@ -1170,6 +1178,9 @@ idna = [
 imagesize = [
     {file = "imagesize-1.3.0-py2.py3-none-any.whl", hash = "sha256:1db2f82529e53c3e929e8926a1fa9235aa82d0bd0c580359c67ec31b2fddaa8c"},
     {file = "imagesize-1.3.0.tar.gz", hash = "sha256:cd1750d452385ca327479d45b64d9c7729ecf0b3969a58148298c77092261f9d"},
+]
+importlib = [
+    {file = "importlib-1.0.4.zip", hash = "sha256:b6ee7066fea66e35f8d0acee24d98006de1a0a8a94a8ce6efe73a9a23c8d9826"},
 ]
 iniconfig = [
     {file = "iniconfig-1.1.1-py2.py3-none-any.whl", hash = "sha256:011e24c64b7f47f6ebd835bb12a743f2fbe9a26d4cecaa7f53bc4f35ee9da8b3"},

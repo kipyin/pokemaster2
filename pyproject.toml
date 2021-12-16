@@ -41,6 +41,7 @@ click = "^8.0.3"
 attrs = "^21.2.0"
 peewee = "^3.14.8"
 loguru = "^0.5.3"
+importlib = "^1.0.4"
 
 
 [tool.poetry.dev-dependencies]
