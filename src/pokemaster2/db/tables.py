@@ -3,16 +3,16 @@ from typing import List
 
 import peewee
 
-db = peewee.SqliteDatabase(":memory:")
+database = peewee.SqliteDatabase(None)
 
 
 class BaseModel(peewee.Model):
     """BaseModel for all pokdex Models."""
 
     class Meta:
-        """All BaseModel uses db."""
+        """All BaseModel uses database."""
 
-        database = db
+        database = database
 
 
 class Pokemon(BaseModel):
