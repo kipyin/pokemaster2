@@ -6,7 +6,7 @@ from typing import Any
 import nox
 from nox.sessions import Session
 
-nox.options.sessions = ["tests", "mypy"]
+nox.options.sessions = ["tests"]
 python_versions = ["3.8", "3.9", "3.10"]
 
 
