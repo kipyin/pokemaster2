@@ -13,10 +13,10 @@ def get_default_db_uri_with_origin() -> Tuple[str, str]:
     origin = "environment"
 
     if uri is None:
-        import pkg_resources
+        import importlib.resources
 
-        sqlite_path = pkg_resources.resource_filename("pokemaster2", "../data/pokedex.sqlite")
-        uri = "sqlite:///" + sqlite_path
+        sqlite_path = importlib.resources.files("pokemaster2").parent / "data/pokedex.sqlite3"
+        uri = "sqlite:///" + str(sqlite_path)
         origin = "default"
 
     return uri, origin
@@ -28,12 +28,16 @@ def get_default_csv_dir_with_origin() -> Tuple[str, str]:
     Returns:
         Tuple[CSV file path, the origin of the CSV path]
     """
-    import pkg_resources
+    csv_path = os.environ.get("POKEDEX_CSV_PATH", None)
+    origin = "environment"
 
-    csv_dir = pkg_resources.resource_filename("pokemaster2", "../data/csv")
-    origin = "default"
+    if csv_path is None:
+        import importlib.resources
 
-    return csv_dir, origin
+        csv_path = str(importlib.resources.files("pokemaster2").parent / "data/csv")
+        origin = "default"
+
+    return csv_path, origin
 
 
 def get_default_db_uri() -> str:
