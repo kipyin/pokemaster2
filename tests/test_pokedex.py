@@ -21,3 +21,18 @@ def test_db():
 def test_sanity(test_db):
     """The database works."""
     assert True
+
+
+def test_add_pokemon_to_database(test_db):
+    """Pokemon data can be added to the database."""
+    test_pokemon = Pokemon.create(
+        id=1,
+        identifier="test_pokemon",
+        species="test_pokemon",
+        height=10,
+        weight=10,
+        base_experience=100,
+        order=1,
+        is_default=True,
+    )
+    assert 1 == test_pokemon.save()
