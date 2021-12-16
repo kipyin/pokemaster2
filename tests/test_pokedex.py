@@ -18,6 +18,6 @@ def session():
     db.close()
 
 
-def null_test(session):
+def test_sanity(session):
     """Test that the database works."""
     assert True
