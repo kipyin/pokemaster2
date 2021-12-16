@@ -19,11 +19,31 @@ def test_db():
 
 
 @pytest.fixture
-def test_pokemon():
+def test_pokemon_species():
+    test_pokemon_species = PokemonSpecies.create(
+        id=1,
+        identifier="test-species",
+        evolves_from=None,
+        gender_rate=8,
+        capture_rate=255,
+        base_happiness=0,
+        is_baby=False,
+        hatch_counter=10,
+        has_gender_differences=False,
+        forms_switchable=False,
+        order=1,
+        conquest_order=1,
+    )
+    yield test_pokemon_species
+
+
+@pytest.fixture
+def test_pokemon(test_pokemon_species):
+    test_pokemon_species.save()
     yield Pokemon.create(
         id=1,
-        identifier="test_pokemon",
-        species="test_pokemon",
+        identifier="test-pokemon",
+        species=test_pokemon_species,
         height=10,
         weight=10,
         base_experience=100,
