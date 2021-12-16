@@ -84,4 +84,11 @@ def test_add_pokemon_species_to_database(test_db, test_pokemon_species):
 def test_retrieve_pokemon_from_database(test_db, test_pokemon):
     """Pokemon data can be retrieved from the database."""
     test_pokemon.save()
-    assert "test_pokemon" == Pokemon.get(identifier="test_pokemon").identifier
+    test_pokemon_query = Pokemon.get(identifier="test-pokemon")
+    assert "test-pokemon" == test_pokemon_query.identifier
+
+
+def test_call_species_from_pokemon(test_db, test_pokemon):
+    """`Pokemon.species` should return a `PokemonSpecies`."""
+    test_pokemon.save()
+    assert "test-species" == Pokemon.get(identifier="test-pokemon").species.identifier
