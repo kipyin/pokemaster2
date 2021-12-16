@@ -2,6 +2,7 @@
 import peewee
 import pytest
 
+from pokemaster2 import pokedex
 from pokemaster2.pokedex import Pokemon, PokemonSpecies
 
 MODELS = [Pokemon, PokemonSpecies]
@@ -98,3 +99,12 @@ def test_call_species_from_pokemon(test_db, test_pokemon):
         .first()
     )
     assert "test-species" == test_pokemon_species_query.species.identifier
+
+
+def test_get_pokemon(test_db, test_pokemon):
+    """`get_pokemon` return a list of `Pokemon` data."""
+    test_pokemon.save()
+    pokemon_set = pokedex.get_pokemon("test-pokemon")
+    pokemon = pokemon_set[0]
+    assert 1 == len(pokemon_set)
+    assert 1 == pokemon.species.id
