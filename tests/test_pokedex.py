@@ -1,10 +1,11 @@
 """Tests for `pokemaster.database`."""
 import peewee
 import pytest
+
 from pokemaster2.pokedex import Pokemon, PokemonSpecies
 
-
 MODELS = [Pokemon, PokemonSpecies]
+
 
 @pytest.fixture
 def session():
