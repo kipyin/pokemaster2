@@ -3,7 +3,7 @@ import os
 from typing import Tuple
 
 
-def get_default_db_uri_with_origin() -> Tuple[str, str]:
+def db_uri_with_origin() -> Tuple[str, str]:
     """Determine the default db uri.
 
     Returns:
@@ -22,7 +22,7 @@ def get_default_db_uri_with_origin() -> Tuple[str, str]:
     return uri, origin
 
 
-def get_default_csv_dir_with_origin() -> Tuple[str, str]:
+def csv_dir_with_origin() -> Tuple[str, str]:
     """Determine the default csv path.
 
     Returns:
@@ -40,11 +40,11 @@ def get_default_csv_dir_with_origin() -> Tuple[str, str]:
     return csv_path, origin
 
 
-def get_default_db_uri() -> str:
+def db_uri() -> str:
     """Get only the default db uri, omitting the origin."""
-    return get_default_db_uri_with_origin()[0]
+    return db_uri_with_origin()[0]
 
 
-def get_default_csv_dir() -> str:
+def csv_dir() -> str:
     """Get only the default csv path, omitting the origin."""
-    return get_default_csv_dir_with_origin()[0]
+    return csv_dir_with_origin()[0]
