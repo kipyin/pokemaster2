@@ -4,7 +4,25 @@ The seed and the results are from the following link:
 https://www.smogon.com/ingame/rng/pid_iv_creation#pokemon_random_number_generator
 """
 
+import pytest
+from loguru import logger
+
 from pokemaster2.prng import PRNG
+
+
+def test_prng_generation_3():
+    prng = PRNG(gen=3)
+    prng_1 = prng()
+    logger.debug("PRNG seed: {seed}", seed=prng.seed)
+    logger.debug("PRNG initial seed: {initial_seed}", initial_seed=prng._initial_seed)
+    logger.debug("The first call of prng: {first_prng}", first_prng=prng_1)
+    assert 59774 == prng()
+
+
+def test_prng_generation_exception():
+    prng = PRNG(gen=4)
+    with pytest.raises(ValueError):
+        prng()
 
 
 def test_prng_default_seed_is_0():
