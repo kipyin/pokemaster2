@@ -18,14 +18,9 @@ def test_db():
     db.close()
 
 
-def test_sanity(test_db):
-    """The database works."""
-    assert True
-
-
-def test_add_pokemon_to_database(test_db):
-    """Pokemon data can be added to the database."""
-    test_pokemon = Pokemon.create(
+@pytest.fixture
+def test_pokemon():
+    yield Pokemon.create(
         id=1,
         identifier="test_pokemon",
         species="test_pokemon",
@@ -35,4 +30,19 @@ def test_add_pokemon_to_database(test_db):
         order=1,
         is_default=True,
     )
+
+
+def test_sanity(test_db):
+    """The database works."""
+    assert True
+
+
+def test_add_pokemon_to_database(test_db, test_pokemon):
+    """Pokemon data can be added to the database."""
     assert 1 == test_pokemon.save()
+
+
+def test_retrieve_pokemon_from_database(test_db, test_pokemon):
+    """Pokemon data can be retrieved from the database."""
+    test_pokemon.save()
+    assert "test_pokemon" == Pokemon.get(identifier="test_pokemon").identifier
