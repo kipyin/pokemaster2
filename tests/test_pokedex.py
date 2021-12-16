@@ -52,9 +52,17 @@ def test_pokemon(test_pokemon_species):
     )
 
 
-def test_sanity(test_db):
+def test_db_has_tables(test_db):
     """The database works."""
-    assert True
+    tables = test_db.get_tables()
+    for model in MODELS:
+        assert model._meta.table_name in tables
+
+
+def test_database_empty(test_db):
+    """The database is empty at start."""
+    with pytest.raises(peewee.DoesNotExist):
+        Pokemon.get(id=1)
 
 
 def test_add_pokemon_to_database(test_db, test_pokemon):
