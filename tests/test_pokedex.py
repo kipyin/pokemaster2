@@ -8,7 +8,7 @@ MODELS = [Pokemon, PokemonSpecies]
 
 
 @pytest.fixture
-def session():
+def test_db():
     db = peewee.SqliteDatabase(":memory:")
     db.bind(MODELS, bind_refs=False, bind_backrefs=False)
     db.connect()
@@ -18,6 +18,6 @@ def session():
     db.close()
 
 
-def test_sanity(session):
+def test_sanity(test_db):
     """The database works."""
     assert True
