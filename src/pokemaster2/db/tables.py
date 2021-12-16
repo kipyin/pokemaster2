@@ -143,3 +143,6 @@ def get_pokemon(identifier: str) -> List[Pokemon]:
     )
 
     return pokemon_set
+
+
+MODELS = [Pokemon, PokemonSpecies]

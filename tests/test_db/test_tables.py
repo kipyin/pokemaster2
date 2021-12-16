@@ -3,9 +3,7 @@ import peewee
 import pytest
 
 from pokemaster2.db import tables
-from pokemaster2.db.tables import Pokemon, PokemonSpecies
-
-MODELS = [Pokemon, PokemonSpecies]
+from pokemaster2.db.tables import MODELS, Pokemon, PokemonSpecies
 
 
 @pytest.fixture
