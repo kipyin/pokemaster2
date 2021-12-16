@@ -19,5 +19,5 @@ def session():
 
 
 def test_sanity(session):
-    """Test that the database works."""
+    """The database works."""
     assert True
