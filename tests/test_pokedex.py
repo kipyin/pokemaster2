@@ -91,4 +91,10 @@ def test_retrieve_pokemon_from_database(test_db, test_pokemon):
 def test_call_species_from_pokemon(test_db, test_pokemon):
     """`Pokemon.species` should return a `PokemonSpecies`."""
     test_pokemon.save()
-    assert "test-species" == Pokemon.get(identifier="test-pokemon").species.identifier
+    test_pokemon_species_query = (
+        Pokemon.select(Pokemon, PokemonSpecies)
+        .join(PokemonSpecies)
+        .where(Pokemon.identifier == "test-pokemon")
+        .first()
+    )
+    assert "test-species" == test_pokemon_species_query.species.identifier
