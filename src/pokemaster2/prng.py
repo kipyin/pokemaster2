@@ -22,19 +22,19 @@ class PRNG:
         https://www.smogon.com/ingame/rng/pid_iv_creation#pokemon_random_number_generator
     """
 
-    _seed: int = attr.ib(validator=attr.validators.instance_of(int), default=0)
+    seed: int = attr.ib(validator=attr.validators.instance_of(int), default=0)
     _gen: int = attr.ib(validator=attr.validators.in_(range(1, 8)), default=3)
     _initial_seed: int = attr.ib(init=False)
 
     def __attrs_post_init__(self: P) -> None:
         """Record the initial seed right after instantiation."""
-        self._initial_seed = self._seed
+        self._initial_seed = self.seed
 
     def _generator(self: P) -> Generator:
         if self._gen == 3:
             while True:
-                self._seed = (0x41C64E6D * self._seed + 0x6073) & 0xFFFFFFFF
-                yield self._seed >> 16
+                self.seed = (0x41C64E6D * self.seed + 0x6073) & 0xFFFFFFFF
+                yield self.seed >> 16
         else:
             raise ValueError(f"Gen. {self._gen} PRNG is not supported yet.")
 
@@ -48,7 +48,7 @@ class PRNG:
 
     def reset(self: P) -> None:
         """Reset the generator with the initial seed."""
-        self._seed = self._initial_seed
+        self.seed = self._initial_seed
 
     def next_(self: P, n: int) -> List[int]:
         """Generate the next n random numbers."""
