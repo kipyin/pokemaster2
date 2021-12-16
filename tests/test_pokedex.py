@@ -70,6 +70,17 @@ def test_add_pokemon_to_database(test_db, test_pokemon):
     assert 1 == test_pokemon.save()
 
 
+def test_pokemon_species_is_saved_with_pokemon(test_db, test_pokemon):
+    """`PokemonSpecies` is saved when `Pokemon` is saved."""
+    test_pokemon.save()
+    assert 1 == PokemonSpecies.get(id=1).id
+
+
+def test_add_pokemon_species_to_database(test_db, test_pokemon_species):
+    """`PokemonSpecies` data can be added to the database."""
+    assert 1 == test_pokemon_species.save()
+
+
 def test_retrieve_pokemon_from_database(test_db, test_pokemon):
     """Pokemon data can be retrieved from the database."""
     test_pokemon.save()
