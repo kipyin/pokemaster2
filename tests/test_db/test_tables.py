@@ -37,12 +37,11 @@ def test_pokemon_species():
 
 
 @pytest.fixture
-def test_pokemon(test_pokemon_species):
-    test_pokemon_species.save()
+def test_pokemon():
     yield Pokemon.create(
         id=1,
         identifier="test-pokemon",
-        species=test_pokemon_species,
+        species_id=1,
         height=10,
         weight=10,
         base_experience=100,
@@ -69,12 +68,6 @@ def test_add_pokemon_to_database(test_db, test_pokemon):
     assert 1 == test_pokemon.save()
 
 
-def test_pokemon_species_is_saved_with_pokemon(test_db, test_pokemon):
-    """`PokemonSpecies` is saved when `Pokemon` is saved."""
-    test_pokemon.save()
-    assert 1 == PokemonSpecies.get(id=1).id
-
-
 def test_add_pokemon_species_to_database(test_db, test_pokemon_species):
     """`PokemonSpecies` data can be added to the database."""
     assert 1 == test_pokemon_species.save()
@@ -87,21 +80,23 @@ def test_retrieve_pokemon_from_database(test_db, test_pokemon):
     assert "test-pokemon" == test_pokemon_query.identifier
 
 
-def test_call_species_from_pokemon(test_db, test_pokemon):
+def test_call_species_from_pokemon(test_db, test_pokemon, test_pokemon_species):
     """`Pokemon.species` should return a `PokemonSpecies`."""
     test_pokemon.save()
+    test_pokemon_species.save()
     test_pokemon_species_query = (
         Pokemon.select(Pokemon, PokemonSpecies)
-        .join(PokemonSpecies)
+        .join(PokemonSpecies, on=(Pokemon.species_id == PokemonSpecies.id))
         .where(Pokemon.identifier == "test-pokemon")
         .first()
     )
     assert "test-species" == test_pokemon_species_query.species.identifier
 
 
-def test_get_pokemon(test_db, test_pokemon):
+def test_get_pokemon(test_db, test_pokemon, test_pokemon_species):
     """`get_pokemon` return a list of `Pokemon` data."""
     test_pokemon.save()
+    test_pokemon_species.save()
     pokemon_set = tables.get_pokemon("test-pokemon")
     pokemon = pokemon_set[0]
     assert 1 == len(pokemon_set)
