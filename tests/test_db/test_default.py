@@ -1,5 +1,7 @@
 """Tests to `pokemaster2.db.defaults`."""
 
+from pathlib import Path
+
 from pokemaster2.db import default
 
 
@@ -24,7 +26,7 @@ def test_get_default_db_uri(monkeypatch):
     monkeypatch.delenv("POKEDEX_DB_ENGINE", raising=False)
     uri, origin = default.db_uri_with_origin()
     assert "default" == origin
-    assert uri.endswith("/data/pokedex.sqlite3")
+    assert Path(uri).as_posix().endswith("/data/pokedex.sqlite3")
 
 
 def test_get_default_csv_dir(monkeypatch):
@@ -32,4 +34,4 @@ def test_get_default_csv_dir(monkeypatch):
     monkeypatch.delenv("POKEDEX_CSV_PATH", raising=False)
     csv_path, origin = default.csv_dir_with_origin()
     assert "default" == origin
-    assert csv_path.endswith("/data/csv")
+    assert Path(csv_path).as_posix().endswith("/data/csv")
