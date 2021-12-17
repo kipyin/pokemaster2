@@ -32,9 +32,7 @@ class Pokemon(BaseModel):
         max_length=79,
         help_text="An identifier, including form iff this row corresponds to a single, named form",
     )
-    species = peewee.DeferredForeignKey(
-        "PokemonSpecies",
-        backref="pokemon",
+    species_id = peewee.IntegerField(
         help_text="ID of the species this Pokémon belongs to",
     )
     height = peewee.IntegerField(
@@ -74,7 +72,7 @@ class PokemonSpecies(BaseModel):
     #     backref="pokemon_species",
     #     help_text="ID of the generation this species first appeared in",
     # )
-    evolves_from = peewee.ForeignKeyField(
+    evolves_from_species_id = peewee.ForeignKeyField(
         "self",
         backref="evolves_to",
         null=True,
@@ -134,11 +132,14 @@ class PokemonSpecies(BaseModel):
     )
 
 
+Pokemon.species = peewee.ForeignKeyField(PokemonSpecies)
+
+
 def get_pokemon(identifier: str) -> List[Pokemon]:
     """Find a single `Pokemon` instance."""
     pokemon_set = (
         Pokemon.select(Pokemon, PokemonSpecies)
-        .join(PokemonSpecies)
+        .join(PokemonSpecies, on=(Pokemon.species_id == PokemonSpecies.id))
         .where(Pokemon.identifier == identifier)
     )
 
