@@ -28,7 +28,9 @@ Get Real, Living™ Pokémon in Python
 
 ## Features
 
-* TODO
+Currently, there is not much you can do with `pokemaster`, but more features are actively being added!
+
+* Load pokemon data from csv to a sqlite database.
 
 ## Quickstart
 
