@@ -5,14 +5,39 @@ from typing import Optional, Sequence
 
 import peewee
 from loguru import logger
+from playhouse import db_url
 
 from pokemaster2.db import default, tables
 
 
+def get_database(uri: Optional[str] = None) -> peewee.SqliteDatabase:
+    """Connect to and return a database."""
+    if uri is None:
+        uri, origin = default.db_uri_with_origin()
+    else:
+        uri, origin = uri, "command-line"
+
+    database = db_url.connect(uri)
+    logger.debug("Connected to database {database} (from {origin}).", database=uri, origin=origin)
+
+    return database
+
+
+def get_csv_dir(csv_dir: Optional[str] = None) -> str:
+    """Return the csv dir we are about to use."""
+    if csv_dir is None:
+        csv_dir, origin = default.csv_dir_with_origin()
+    else:
+        csv_dir, origin = csv_dir, "command-line"
+
+    logger.debug("Using csv directory {csv_dir} (from {origin}).", csv_dir=csv_dir, origin=origin)
+    return csv_dir
+
+
 def load(
     database: peewee.SqliteDatabase,
+    csv_dir: str,
     models: Sequence[tables.BaseModel] = None,
-    csv_dir: Optional[str] = None,
     drop_tables: bool = False,
     safe: bool = True,
     recursive: bool = True,
@@ -33,9 +58,6 @@ def load(
         Nothing.
 
     """
-    # If csv_dir is not provided, get the default dir.
-    csv_dir = csv_dir or default.csv_dir()
-
     # Use all tables if no table is provided.
     models = models or tables.MODELS
 
@@ -56,7 +78,6 @@ def load(
             database.drop_tables(models)
 
         # Create tables.
-        # TODO: what if a table already exists?
         database.create_tables(models)
 
         # Run through the CSV files and load the data.
@@ -76,4 +97,4 @@ def load(
                 logger.error("CSV file not found: {csv_file}", csv_file=csv_file_path.name)
                 continue
 
-    return None
+    return True
