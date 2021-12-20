@@ -14,13 +14,12 @@ from pokemaster2 import cli
         ([], "Console script for pokemaster2"),
         (["--help"], "Usage: main [OPTIONS] COMMAND [ARGS]..."),
         (["--version"], f"main, version { pokemaster2.__version__ }\n"),
-        (["load"], ""),
+        (["load", "-U", "./pokedex.sqlite3"], ""),
     ],
 )
-def test_command_line_interface(options: List[str], expected: str, test_csv_dir) -> None:
+def test_command_line_interface(options: List[str], expected: str) -> None:
     """Test the CLI."""
     runner = CliRunner()
-    with runner.isolated_filesystem(test_csv_dir.parent.parent):  # src dir
-        result = runner.invoke(cli.main, options)
-        assert result.exit_code == 0
-        assert expected in result.output
+    result = runner.invoke(cli.main, options)
+    assert result.exit_code == 0
+    assert expected in result.output

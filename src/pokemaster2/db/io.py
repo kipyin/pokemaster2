@@ -5,20 +5,30 @@ from typing import Optional, Sequence
 
 import peewee
 from loguru import logger
-from playhouse import db_url
 
 from pokemaster2.db import default, tables
+
+# from playhouse import db_url
 
 
 def get_database(uri: Optional[str] = None) -> peewee.SqliteDatabase:
     """Connect to and return a database."""
     if uri is None:
         uri, origin = default.db_uri_with_origin()
+    # elif not uri.startswith("sqlite://")
     else:
         uri, origin = uri, "command-line"
 
-    database = db_url.connect(uri)
-    logger.debug("Connected to database {database} (from {origin}).", database=uri, origin=origin)
+    # database = db_url.connect(uri)
+    database = peewee.SqliteDatabase(uri)
+    if database.connect():
+        logger.debug(
+            "Connected to database {database} (from {origin}).", database=uri, origin=origin
+        )
+    else:
+        logger.error(
+            "Failed to connect to database {database} (from {origin}", database=uri, origin=origin
+        )
 
     return database
 
@@ -60,25 +70,37 @@ def load(
     """
     # Use all tables if no table is provided.
     models = models or tables.MODELS
+    logger.debug("Tables to be loaded: {tables}", tables=models)
 
     # Load tables faster.
     if not safe:
         database.synchronous = 0
         database.journal_mode = "memory"
+        logger.debug(
+            "Safe option turned off: synchronous: {sync}, journal-mode: {mode}",
+            sync=database.synchronous,
+            mode=database.journal_mode,
+        )
 
+    logger.debug("Opening database {uri}", uri=database.database)
     with database.atomic():
+        logger.debug("Opened database {uri}", uri=database.database)
         # Enable foreign keys
         database.foreign_keys = 1
+        logger.debug("Foreign key set to {fk}", fk=database.foreign_keys)
 
         # Bind the database.
         database.bind(models, bind_refs=recursive, bind_backrefs=recursive)
+        logger.debug("Bound database.")
 
         # Drop tables if asked.
         if drop_tables:
             database.drop_tables(models)
+            logger.debug("Dropped tables: {tables}", tables=models)
 
         # Create tables.
         database.create_tables(models)
+        logger.debug("Tables created.")
 
         # Run through the CSV files and load the data.
         for model in models:
@@ -91,6 +113,8 @@ def load(
                 # http://docs.peewee-orm.com/en/latest/peewee/querying.html#inserting-rows-in-batches
                 for batch in peewee.chunked(csv_dict_reader, 100):
                     model.insert_many(batch).execute()
+
+                logger.debug("Written table {table} into database.", table=model._meta.table_name)
 
             except IOError:
                 # Log the error and continue the next loop.
