@@ -7,9 +7,9 @@ and this project adheres to [Calendar Versioning](https://calver.org/).
 
 ## [Unreleased]
 
-## [2021.0.0] - 2021-12-13
+## [21.0.0] - 2021-12-13
 ### Added
 - First release on PyPI.
 
-[Unreleased]: https://github.com/kipyin/pokemaster2/compare/v2021.0.0...HEAD
-[2021.0.0]: https://github.com/kipyin/pokemaster2/compare/releases/tag/v2021.0.0
+[Unreleased]: https://github.com/kipyin/pokemaster2/compare/v21.0.0...HEAD
+[21.0.0]: https://github.com/kipyin/pokemaster2/compare/releases/tag/v21.0.0
