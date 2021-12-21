@@ -9,6 +9,9 @@ Changes for the upcoming release are housed in
 
 
 ## [Unreleased]
+### Fixed
+- Readthedocs not being able to find `furo`.
+
 
 ## [21.12.2] - 2021-12-21
 ### Fixed
