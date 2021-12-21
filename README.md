@@ -7,7 +7,7 @@
 [![PyPI - Version](https://img.shields.io/pypi/v/pokemaster2.svg)](https://pypi.python.org/pypi/pokemaster2)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pokemaster2.svg)](https://pypi.python.org/pypi/pokemaster2)
 [![Tests](https://github.com/kipyin/pokemaster2/workflows/tests/badge.svg)](https://github.com/kipyin/pokemaster2/actions?workflow=tests)
-[![Codecov](https://codecov.io/gh/kipyin/pokemaster2/branch/main/graph/badge.svg)](https://codecov.io/gh/kipyin/pokemaster2)
+[![Codecov](https://codecov.io/gh/kipyin/pokemaster2/branch/master/graph/badge.svg?token=MePVHijIWv))](https://codecov.io/gh/kipyin/pokemaster2)
 [![Read the Docs](https://readthedocs.org/projects/pokemaster2/badge/)](https://pokemaster2.readthedocs.io/)
 [![PyPI - License](https://img.shields.io/pypi/l/pokemaster2.svg)](https://pypi.python.org/pypi/pokemaster2)
 
