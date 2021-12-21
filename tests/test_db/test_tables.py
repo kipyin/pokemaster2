@@ -6,47 +6,42 @@ from pokemaster2.db import tables
 from pokemaster2.db.tables import MODELS, GrowthRates, Pokemon, PokemonSpecies
 
 
-def test_db_has_tables(test_db):
+def test_db_has_tables(empty_db: peewee.SqliteDatabase):
     """The database works."""
-    tables = test_db.get_tables()
+    tables = empty_db.get_tables()
     for model in MODELS:
         assert model._meta.table_name in tables
 
 
-def test_database_empty(test_db):
+def test_database_empty():
     """The database is empty at start."""
     with pytest.raises(peewee.DoesNotExist):
         Pokemon.get(id=1)
 
 
-def test_add_pokemon_to_database(test_db, test_pokemon):
+def test_add_pokemon_to_database(bulbasaur):
     """Pokemon data can be added to the database."""
-    assert 1 == test_pokemon.save()
+    assert 1 == bulbasaur.save()
 
 
-def test_add_pokemon_species_to_database(test_db, test_pokemon_species):
+def test_add_pokemon_species_to_database(bulbasaur_species):
     """`PokemonSpecies` data can be added to the database."""
-    assert 1 == test_pokemon_species.save()
+    assert 1 == bulbasaur_species.save()
 
 
-def test_retrieve_pokemon_from_database(test_db, test_pokemon):
+def test_retrieve_pokemon_from_database(bulbasaur):
     """Pokemon data can be retrieved from the database."""
-    test_pokemon_query = Pokemon.get(identifier="test-pokemon")
-    assert "test-pokemon" == test_pokemon_query.identifier
+    q = Pokemon.get(id=1)
+    assert "bulbasaur" == q.identifier
 
 
-def test_call_species_from_pokemon(test_db, test_pokemon, test_pokemon_species):
+def test_call_species_from_pokemon(bulbasaur, bulbasaur_species):
     """`Pokemon.species` should return a `PokemonSpecies`."""
-    test_pokemon_species_query = (
-        Pokemon.select(Pokemon, PokemonSpecies)
-        .join(PokemonSpecies)
-        .where(Pokemon.identifier == "test-pokemon")
-        .first()
-    )
-    assert "test-species" == test_pokemon_species_query.species.identifier
+    q = Pokemon.select(Pokemon, PokemonSpecies).join(PokemonSpecies).where(Pokemon.id == 1).first()
+    assert "bulbasaur" == q.species.identifier
 
 
-def test_call_growth_rate_from_species(test_db, test_pokemon_species, test_growth_rate):
+def test_call_growth_rate_from_species(empty_db, test_pokemon_species, test_growth_rate):
     """`PokemonSpecies` joins the table `GrowthRate`."""
     q = (
         PokemonSpecies.select(PokemonSpecies, GrowthRates)
@@ -58,7 +53,7 @@ def test_call_growth_rate_from_species(test_db, test_pokemon_species, test_growt
 
 
 def test_call_growth_rate_from_pokemon(
-    test_db, test_pokemon, test_pokemon_species, test_growth_rate
+    empty_db, test_pokemon, test_pokemon_species, test_growth_rate
 ):
     """Call `Pokemon().species.growth_rate` and return a `GrowthRate` instance."""
     q = (
@@ -74,7 +69,7 @@ def test_call_growth_rate_from_pokemon(
     assert "test-growth" == q.species.growth_rate.identifier
 
 
-def test_get_pokemon(test_db, test_pokemon, test_pokemon_species):
+def test_get_pokemon(empty_db, test_pokemon, test_pokemon_species):
     """`get_pokemon` return a list of `Pokemon` data."""
     pokemon_set = tables.get_pokemon("test-pokemon")
     pokemon = pokemon_set[0]
