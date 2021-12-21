@@ -188,8 +188,8 @@ def docs(c, serve=False, open_browser=False):
         "dry_run": "Don't write any files, just pretend. (default: False)",
     }
 )
-def version(c, new_version, dry_run=False):
+def version(c, part, dry_run=False):
     # type: (Context, str, bool) -> None
     """Bump version."""
     bump_options = ["--dry-run"] if dry_run else []
-    _run(c, f"poetry run bump2version {' '.join(bump_options)} --new-version {new_version} xxx")
+    _run(c, f"poetry run bump2version {' '.join(bump_options)} {part}")
