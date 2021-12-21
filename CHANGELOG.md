@@ -15,7 +15,6 @@ Changes for the upcoming release are housed in
 - First release on PyPI.
 - A very primative CLI, only loads csv files into a database for now.
 
-[Unreleased]: https://github.com/kipyin/pokemaster2/compare/v21.12.1b0...HEAD
-[21.12.0]: https://github.com/kipyin/pokemaster2/compare/releases/tag/v21.0.0release0
+[Unreleased]: https://github.com/kipyin/pokemaster2/compare/v21.12.0...HEAD
 
 <!-- TOWNCRIER -->
