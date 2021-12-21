@@ -11,11 +11,12 @@ Changes for the upcoming release are housed in
 ## [Unreleased]
 
 ## [21.12.1] - 2021-12-21
+### Added
+- A very primative CLI, only loads csv files into a database for now.
 
 ## [21.12.0] - 2021-12-13
 ### Added
 - First release on PyPI.
-- A very primative CLI, only loads csv files into a database for now.
 
 [Unreleased]: https://github.com/kipyin/pokemaster2/compare/v21.12.1...HEAD
 [21.12.1]: https://github.com/kipyin/pokemaster2/compare/v21.12.0...v21.12.1
