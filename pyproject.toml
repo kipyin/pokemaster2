@@ -71,6 +71,7 @@ pytest-cov = "^3.0.0"
 watchdog = {version = "^2.1.6", extras = ["watchmedo"]}
 furo = "^2021.11.23"
 towncrier = "^21.3.0"
+pytest-randomly = "^3.10.3"
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
