@@ -1,0 +1,177 @@
+
+[tool.poetry]
+name = "pokemaster2"
+version = "21.12.1b0"
+description = "Get Real, Living™ Pokémon in Python"
+authors = ["Kip Yin <28321392+kipyin@users.noreply.github.com>"]
+
+readme = "README.md"
+homepage = "https://github.com/kipyin/pokemaster2"
+repository = "https://github.com/kipyin/pokemaster2"
+documentation = "https://pokemaster2.readthedocs.io"
+keywords = ["pokemaster2", "pokemon", "pokedex", "pokemaster"]
+classifiers=[
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    
+    "License :: OSI Approved :: MIT License",
+    
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+]
+
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/kipyin/pokemaster2/issues"
+
+
+
+[tool.poetry.scripts]
+pokemaster2 = 'pokemaster2.cli:main'
+
+
+[tool.poetry.dependencies]
+python = "<3.11,>=3.8"
+
+click = "^8.0.3"
+attrs = "^21.2.0"
+peewee = "^3.14.8"
+loguru = "^0.5.3"
+importlib-resources = "^5.4.0"
+
+
+[tool.poetry.dev-dependencies]
+pre-commit = "^2.15.0"
+invoke = "^1.6.0"
+flake8 = "^3.9.2"
+flakehell = "^0.9.0"
+flake8-builtins = "^1.5.3"
+flake8-blind-except = "^0.2.0"
+flake8-logging-format = "^0.6.0"
+flake8-bugbear = "^21.9.2"
+flake8-annotations = "^2.6.2"
+flake8-docstrings = "^1.6.0"
+flake8-bandit = "^2.1.2"
+darglint = "^1.8.0"
+isort = "^5.9.3"
+black = "^21.9b0"
+safety = "^1.10.3"
+mypy = "^0.910"
+sphinx = "^4.2.0"
+recommonmark = "^0.7.1"
+bump2version = "^1.0.1"
+pytest = "^6.2.5"
+xdoctest = "^0.15.10"
+coverage = {version = "^6.0.1", extras = ["toml"]}
+pytest-cov = "^3.0.0"
+watchdog = {version = "^2.1.6", extras = ["watchmedo"]}
+furo = "^2021.11.23"
+towncrier = "^21.3.0"
+
+[tool.coverage.paths]
+source = ["src", "*/site-packages"]
+
+[tool.coverage.run]
+branch = true
+source = ["pokemaster2"]
+
+[tool.coverage.report]
+fail_under = 70
+exclude_lines = [
+  "pragma: no cover",
+  "def __repr__",
+  "if self.debug",
+  "if settings.DEBUG:",
+  "raise AssertionError",
+  "raise NotImplementedError",
+  "if 0:",
+  "if __name__ == __main__:"
+]
+show_missing = true
+
+[tool.coverage.html]
+directory = "htmlcov"
+
+[tool.flakehell]
+format = "grouped"
+max_line_length = 99
+show_source = true
+docstring-convention = "google"
+extended_default_ignore = []
+
+[tool.flakehell.plugins]
+pyflakes = ["+*"]
+pycodestyle = ["+*"]
+mccabe = ["+*"]
+"flake8-*" = ["+*"]
+darglint = ["+*"]
+
+[tool.flakehell.exceptions."tests/"]
+flake8-bandit = ["-S101"]
+flake8-annotations = ["-ANN001", "-ANN201"]
+flake8-docstrings = ["-D103"]
+
+[tool.flakehell.exceptions."conftest.py"]
+flake8-bandit = ["-S101"]
+flake8-annotations = ["-ANN001", "-ANN201"]
+flake8-docstrings = ["-D103"]
+
+[tool.flakehell.exceptions."src/pokemaster2/db/tables.py"]
+pycodestyle = ["-E501"]
+
+[tool.isort]
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+line_length = 99
+known_third_party = ["invoke", "nox"]
+
+[tool.black]
+line-length = 99
+target-version = ["py38"]
+
+[tool.towncrier]
+package = "pokemaster2"
+package_dir = "src"
+filename = "CHANGELOG.md"
+directory = "news"
+issue_format = "[#{issue}](https://github.com/kipyin/pokemaster2/issues/{issue})"
+title_format = "## [{version}] - {project_date}"
+start_string = "<!-- TOWNCRIER -->\n"
+underlines = ["", "", ""]
+template = "news/TEMPLATE"
+
+[[tool.towncrier.type]]
+directory = "breaking"
+name = "BREAKING CHANGES"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "feature"
+name = "Added"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "bugfix"
+name = "Fixed"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "deprecation"
+name = "Deprecated"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "trivial"
+name = "Trivial"
+showcontent = true
+
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
