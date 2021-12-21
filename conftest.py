@@ -3,7 +3,7 @@
 import peewee
 import pytest
 
-from pokemaster2.db.tables import MODELS, Pokemon, PokemonSpecies
+from pokemaster2.db.tables import MODELS, GrowthRates, Pokemon, PokemonSpecies
 
 
 @pytest.fixture
@@ -47,6 +47,15 @@ def test_pokemon():
         base_experience=100,
         order=1,
         is_default=True,
+    )
+
+
+@pytest.fixture
+def test_growth_rate():
+    yield GrowthRates.create(
+        id=1,
+        identifier="test-growth",
+        formula="test-growth-formula",
     )
 
 
