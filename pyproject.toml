@@ -122,6 +122,8 @@ flake8-docstrings = ["-D103"]
 
 [tool.flakehell.exceptions."src/pokemaster2/db/tables.py"]
 pycodestyle = ["-E501"]
+flake8-docstrings = ["-D101", "-D106"]
+flake8-builtins = ["-A003"]
 
 [tool.isort]
 multi_line_output = 3
