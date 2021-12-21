@@ -1,2 +1,3 @@
 sphinx==4.2.0
 recommonmark==0.7.1
+furo==2021.11.23
