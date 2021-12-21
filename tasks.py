@@ -184,7 +184,7 @@ def docs(c, serve=False, open_browser=False):
 
 @task(
     help={
-        "new_version": "New version to be bumped to.",
+        "part": "Part of the version to be bumped.",
         "dry_run": "Don't write any files, just pretend. (default: False)",
     }
 )
