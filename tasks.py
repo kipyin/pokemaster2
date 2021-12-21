@@ -135,16 +135,19 @@ def mypy(c):
     help={
         "quiet": "Supress test warnings.",
         "disable_warnings": "Disable pytest warnings.",
+        "durations": "Show N slowest setup/test durations (N=0 for all)",
     }
 )
-def tests(c, quiet=False, disable_warnings=True):
-    # type: (Context, bool, bool) -> None
+def tests(c, quiet=False, disable_warnings=True, durations=None):
+    # type: (Context, bool, bool, int) -> None
     """Run tests."""
     pytest_options = ["--xdoctest", "--cov", "--cov-report=", "--cov-fail-under=0"]
     _run(
         c,
         f"poetry run pytest {' '.join(pytest_options)} {TEST_DIR} {SOURCE_DIR} "
-        f"{'-q' if quiet else ''} {'--disable-pytest-warnings' if disable_warnings else ''}",
+        f"{'-q' if quiet else ''} "
+        f"{'--disable-pytest-warnings' if disable_warnings else ''} "
+        f"{f'--durations={durations}' if durations is not None else ''} ",
     )
 
 
