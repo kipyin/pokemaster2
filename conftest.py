@@ -6,14 +6,60 @@ import pytest
 from pokemaster2.db.tables import MODELS, GrowthRates, Pokemon, PokemonSpecies
 
 
-@pytest.fixture
+@pytest.fixture(autouse=True)
 def empty_db():
     """Create, connect, and yield an empty database. Close after use."""
     db = peewee.SqliteDatabase(":memory:")
+    db.bind(MODELS, bind_refs=True, bind_backrefs=True)
     db.connect()
+    db.create_tables(MODELS)
     yield db
     db.drop_tables(MODELS)
     db.close()
+
+
+@pytest.fixture
+def bulbasaur():
+    """Create a bulbasaur instance of `Pokemon`."""
+    column_names = [
+        "id",
+        "identifier",
+        "species_id",
+        "height",
+        "weight",
+        "base_experience",
+        "order",
+        "is_default",
+    ]
+    data = [1, "bulbasaur", 1, 7, 69, 64, 1, 1]
+    yield Pokemon.create(**dict(zip(column_names, data)))
+
+
+@pytest.fixture
+def bulbasaur_species():
+    """Create a bulbasaur species instance of `PokemonSpecies`."""
+    column_names = [
+        "id",
+        "identifier",
+        "generation_id",
+        "evolves_from_species_id",
+        "evolution_chain_id",
+        "color_id",
+        "shape_id",
+        "habitat_id",
+        "gender_rate",
+        "capture_rate",
+        "base_happiness",
+        "is_baby",
+        "hatch_counter",
+        "has_gender_differences",
+        "growth_rate_id",
+        "forms_switchable",
+        "order",
+        "conquest_order",
+    ]
+    data = [1, "bulbasaur", 1, None, 1, 5, 8, 3, 1, 45, 70, 0, 20, 0, 4, 0, 1]
+    yield PokemonSpecies.create(**dict(zip(column_names, data)))
 
 
 @pytest.fixture
