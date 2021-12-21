@@ -6,56 +6,6 @@ from pokemaster2.db import tables
 from pokemaster2.db.tables import MODELS, GrowthRates, Pokemon, PokemonSpecies
 
 
-@pytest.fixture
-def test_db():
-    db = peewee.SqliteDatabase(":memory:")
-    db.bind(MODELS, bind_refs=False, bind_backrefs=False)
-    db.connect()
-    db.create_tables(MODELS)
-    yield db
-    db.drop_tables(MODELS)
-    db.close()
-
-
-@pytest.fixture
-def test_pokemon_species():
-    test_pokemon_species = PokemonSpecies.create(
-        id=1,
-        identifier="test-species",
-        generation_id=1,
-        evolves_from_species_id=None,
-        evolution_chain_id=1,
-        color_id=1,
-        shape_id=1,
-        habitat_id=1,
-        gender_rate=8,
-        capture_rate=255,
-        base_happiness=0,
-        is_baby=False,
-        hatch_counter=10,
-        has_gender_differences=False,
-        growth_rate_id=1,
-        forms_switchable=False,
-        order=1,
-        conquest_order=1,
-    )
-    yield test_pokemon_species
-
-
-@pytest.fixture
-def test_pokemon():
-    yield Pokemon.create(
-        id=1,
-        identifier="test-pokemon",
-        species_id=1,
-        height=10,
-        weight=10,
-        base_experience=100,
-        order=1,
-        is_default=True,
-    )
-
-
 def test_db_has_tables(test_db):
     """The database works."""
     tables = test_db.get_tables()
