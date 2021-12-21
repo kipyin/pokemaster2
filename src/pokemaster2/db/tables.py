@@ -2272,7 +2272,7 @@ def get_pokemon(identifier: str) -> List[Pokemon]:
     """Find a single `Pokemon` instance."""
     pokemon_set = (
         Pokemon.select(Pokemon, PokemonSpecies)
-        .join(PokemonSpecies, on=(Pokemon.species_id == PokemonSpecies.id))
+        .join(PokemonSpecies)
         .where(Pokemon.identifier == identifier)
     )
 
