@@ -14,7 +14,7 @@ from pokemaster2 import cli
         ([], "Console script for pokemaster2"),
         (["--help"], "Usage: main [OPTIONS] COMMAND [ARGS]..."),
         (["--version"], f"main, version { pokemaster2.__version__ }\n"),
-        (["load", "-U", "./pokedex.sqlite3"], ""),
+        # (["load", "-U", "./pokedex.sqlite3"], ""),
     ],
 )
 def test_command_line_interface(options: List[str], expected: str) -> None:
