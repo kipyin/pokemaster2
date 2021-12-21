@@ -10,6 +10,11 @@ Changes for the upcoming release are housed in
 
 ## [Unreleased]
 
+## [21.12.3] - 2021-12-21
+### Fixed
+- Readthedocs not being able to find `furo`.
+
+
 ## [21.12.2] - 2021-12-21
 ### Fixed
 - Finalized version schema to `{year}.{month}.{minor}`.
@@ -24,7 +29,8 @@ Changes for the upcoming release are housed in
 ### Added
 - First release on PyPI.
 
-[Unreleased]: https://github.com/kipyin/pokemaster2/compare/v21.12.2...HEAD
+[Unreleased]: https://github.com/kipyin/pokemaster2/compare/v21.12.3...HEAD
+[21.12.3]: https://github.com/kipyin/pokemaster2/compare/v21.12.2...v21.12.3
 [21.12.2]: https://github.com/kipyin/pokemaster2/compare/v21.12.1...v21.12.2
 [21.12.1]: https://github.com/kipyin/pokemaster2/compare/v21.12.0...v21.12.1
 
