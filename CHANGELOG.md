@@ -9,6 +9,10 @@ Changes for the upcoming release are housed in
 
 
 ## [Unreleased]
+### Fixed
+- Finalized version schema to `{year}.{month}.{minor}`.
+- Fixed docs on readthedocs
+
 
 ## [21.12.1] - 2021-12-21
 ### Added
