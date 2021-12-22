@@ -42,6 +42,7 @@ attrs = "^21.2.0"
 peewee = "^3.14.8"
 loguru = "^0.5.3"
 importlib-resources = "^5.4.0"
+Pillow = "^8.4.0"
 
 
 [tool.poetry.dev-dependencies]
@@ -125,6 +126,22 @@ flake8-docstrings = ["-D103"]
 pycodestyle = ["-E501"]
 flake8-docstrings = ["-D101", "-D106"]
 flake8-builtins = ["-A003"]
+
+[tool.flakehell.exceptions."src/pokemaster2/dex/"]
+pycodestyle = ["-E501"]
+flake8-annotations = ["-ANN001", "-ANN101", "-ANN201", "-ANN202", "-ANN204"]
+flake8-bandit = ["-S101"]
+flake8-docstrings = ["-D101", "-D102", "-D103", "-D106", "-D107"]
+flake8-builtins = ["-A003"]
+pyflakes = ["-F403", "-F405"]
+
+[tool.flakehell.exceptions."src/pokemaster2/cli.py"]
+pycodestyle = ["-E501"]
+flake8-annotations = ["-ANN001", "-ANN101", "-ANN201", "-ANN202", "-ANN204"]
+flake8-bandit = ["-S101"]
+flake8-docstrings = ["-D101", "-D102", "-D103", "-D106", "-D107"]
+flake8-builtins = ["-A002", "-A003"]
+pyflakes = ["-F403", "-F405"]
 
 [tool.isort]
 multi_line_output = 3
