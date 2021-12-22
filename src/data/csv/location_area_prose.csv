@@ -9,18 +9,18 @@ location_area_id,local_language_id,name
 8,9,
 9,9,
 10,9,
-11,9,Route 207
+11,9,1F Route 207
 12,9,2F
 13,9,3F
-14,9,snowfall
-15,9,blizzard
+14,9,exterior snowfall
+15,9,exterior blizzard
 16,9,4F
-17,9,5F
-18,9,6F
-19,9,7F
-20,9,cave
-21,9,Route 216
-22,9,Route 211
+17,9,4F small room
+18,9,5F
+19,9,6F
+20,9,1F from exterior
+21,9,1F Route 216
+22,9,1F Route 211
 23,9,B1F
 24,9,Area 1
 25,9,Area 2
@@ -618,3 +618,35 @@ location_area_id,local_language_id,name
 756,9,Unknown Area 345
 757,9,Unknown Area 347
 758,9,Unknown Area 348
+761,9,Pokemon Center
+762,9,Fighting Dojo
+763,9,Celadon Mansion rooftop
+764,9,Silph Co. 7F
+765,9,North Gate
+766,9,Bill's house
+767,9,Mania's house
+768,9,Weather Institute
+769,9,Steven's house
+770,9,
+771,9,
+772,9,
+773,9,Kirk's house
+774,9,
+775,9,Game Freak HQ 1F
+776,9,Weather Institute
+777,9,
+778,9,
+779,9,
+780,9,
+781,9,Contest Hall
+782,9,Contest Hall
+783,9,Contest Hall
+784,9,Contest Hall
+785,9,
+786,9,
+787,9,
+788,9,West Gate
+789,9,West Gate
+790,9,Poke Mart
+791,9,Pokemon Center
+792,9,West Gate
