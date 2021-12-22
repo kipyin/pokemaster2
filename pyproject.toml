@@ -31,7 +31,7 @@ classifiers=[
 
 
 [tool.poetry.scripts]
-pmdex = 'pokemaster2.cli:main'
+pmdex = 'pokemaster2.cli:pmdex'
 
 
 [tool.poetry.dependencies]
