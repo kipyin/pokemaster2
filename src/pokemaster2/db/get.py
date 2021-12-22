@@ -94,7 +94,10 @@ def pokemon_evolution_chain(pokemon_id: int, language: str = DEFAULT_LANGUAGE) -
     logger.debug("Chain: {chain}", chain=chain)
 
     # `root` is the part of the chain whose `evolves_from_species_id` is None.
-    root: EvolutionTuple = next((pkmn for pkmn in chain if pkmn[2] is None))
+    try:
+        root: EvolutionTuple = next((pkmn for pkmn in chain if pkmn[2] is None))
+    except StopIteration:
+        root = chain[0]
     logger.debug("Root: {root}", root=root)
 
     # `tree` is a recursive dict, such as

@@ -450,6 +450,12 @@ class PokemonSpecies(BaseModel):
     hatch_counter = peewee.IntegerField()
     identifier = peewee.CharField()
     is_baby = peewee.BooleanField()
+    is_legendary = peewee.BooleanField(
+        null=False, help_text="True iff the Pokémon is a legendary Pokémon."
+    )
+    is_mythical = peewee.BooleanField(
+        null=False, help_text="True iff the Pokémon is a mythical Pokémon."
+    )
     order = peewee.IntegerField(index=True)
     shape = peewee.ForeignKeyField(column_name="shape_id", field="id", model=PokemonShapes)
 

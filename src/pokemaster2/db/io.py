@@ -18,9 +18,13 @@ def get_database(uri: Optional[str] = None) -> peewee.SqliteDatabase:
     # elif not uri.startswith("sqlite://")
     else:
         uri, origin = uri, "command-line"
+    logger.debug("URI, origin: {u}, {o}", u=uri, o=origin)
 
     # database = db_url.connect(uri)
     database = peewee.SqliteDatabase(uri)
+    database.init("pokedex.sqlite3")
+    logger.debug("Database initialized.")
+
     if database.connect():
         logger.debug(
             "Connected to database {database} (from {origin}).", database=uri, origin=origin
