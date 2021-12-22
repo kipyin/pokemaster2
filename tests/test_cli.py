@@ -8,7 +8,6 @@ import pokemaster2
 from pokemaster2 import cli
 
 
-@pytest.mark.skip("Fixtures need to be refactored.")
 @pytest.mark.parametrize(
     "options,expected",
     [
