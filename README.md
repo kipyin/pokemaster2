@@ -34,7 +34,43 @@ Currently, there is not much you can do with `pokemaster`, but more features are
 
 ## Quickstart
 
-TODO
+### Installation
+
+To install the code, run
+
+```
+$ pip install pokemaster2
+```
+
+Or better use [`pipx`][pipx]:
+
+```
+$ pipx install pokemaster2
+```
+
+Now you can run
+
+```
+$ pmdex
+Usage: pmdex [OPTIONS] COMMAND [ARGS]...
+
+  Console script for pokemaster2.
+
+Options:
+  --version  Show the version and exit.
+  --help     Show this message and exit.
+
+Commands:
+  load  Load Pokédex data into a database from CSV files.
+```
+
+### Usage
+
+#### Loading database
+
+```
+$ pmdex load
+```
 
 ## Credits
 
@@ -42,3 +78,4 @@ This package was created with [Cookiecutter][cookiecutter] and the [fedejaure/co
 
 [cookiecutter]: https://github.com/cookiecutter/cookiecutter
 [cookiecutter-modern-pypackage]: https://github.com/fedejaure/cookiecutter-modern-pypackage
+[pipx]: https://github.com/pypa/pipx
