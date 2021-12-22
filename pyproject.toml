@@ -42,6 +42,7 @@ attrs = "^21.2.0"
 peewee = "^3.14.8"
 loguru = "^0.5.3"
 importlib-resources = "^5.4.0"
+Pillow = "^8.4.0"
 
 
 [tool.poetry.dev-dependencies]
