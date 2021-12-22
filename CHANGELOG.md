@@ -10,7 +10,10 @@ Changes for the upcoming release are housed in
 
 ## [Unreleased]
 ### Added
-- Latest data from [veekun-pokedex](https://github.com/veekun/pokedex/tree/master/pokedex/data/csv)
+- Latest data from [veekun-pokedex](https://github.com/veekun/pokedex/tree/master/pokedex/data/csv), including sword & shield
+
+### Changed
+- CLI entry point has been changed from `pokemaster` to `pmdex`.
 
 
 ## [21.12.3] - 2021-12-21
