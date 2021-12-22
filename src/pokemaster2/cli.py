@@ -9,14 +9,14 @@ from pokemaster2.db import io
 
 @click.group()
 @click.version_option(version=__version__)
-def main() -> int:
+def pmdex() -> int:
     """Console script for pokemaster2."""
     # click.echo("Replace this message by putting your code into pokemaster2.cli.main")
     # click.echo("See click documentation at https://click.palletsprojects.com/")
     return 0
 
 
-@main.command("load")
+@pmdex.command("load")
 @click.option("-C", "--csv-dir", default=None)
 @click.option("-U", "--uri", default=None)
 @click.option("-D", "--drop-tables", type=bool, default=True)
@@ -38,4 +38,4 @@ def cli_load(csv_dir: str, uri: str, drop_tables: bool, safe: bool, recursive: b
 
 
 if __name__ == "__main__":
-    main()  # pragma: no cover
+    pmdex()  # pragma: no cover

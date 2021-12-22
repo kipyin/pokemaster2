@@ -1,0 +1,117 @@
+"""Database queries."""
+from typing import Dict, List, Tuple
+
+import peewee
+from loguru import logger
+
+from pokemaster2.db import tables as t
+
+DEFAULT_VERSION = "diamond"
+DEFAULT_LANGUAGE = "en"
+
+
+def pokemon(id_: int) -> t.Pokemon:
+    """Fetch a Pokémon data by id."""
+    q = t.Pokemon.select().where(t.Pokemon.id == id_).first()
+    return q
+
+
+def pokedex_entry(
+    id_: int, language: str = DEFAULT_LANGUAGE, version: str = DEFAULT_VERSION
+) -> peewee.ModelRaw:
+    """Get a pokedex entry."""
+    q = t.Pokemon.raw(
+        """SELECT p.species_id, name, genus, flavor_text, height, weight
+                FROM pokemon p
+                JOIN languages l ON l.identifier=?
+                JOIN versions v ON v.identifier=?
+                JOIN pokemon_species_names s
+                    ON s.local_language_id=l.id
+                    AND s.pokemon_species_id=p.species_id
+                JOIN pokemon_species_flavor_text f
+                    ON f.language_id=l.id
+                    AND f.version_id=v.id
+                    AND f.species_id = p.species_id
+                WHERE p.species_id=?""",
+        language,
+        version,
+        id_,
+    )
+    return list(q)[0]
+
+
+def pokemon_name(pokemon_id: int, language: str = DEFAULT_LANGUAGE) -> str:
+    """Get a Pokémon's name."""
+    q = (
+        t.PokemonSpeciesNames.select(t.PokemonSpeciesNames, t.Languages)
+        .join(t.Languages, on=(t.Languages.identifier == language))
+        .where(
+            (t.PokemonSpeciesNames.local_language == t.Languages.id)
+            & (t.PokemonSpeciesNames.pokemon_species == pokemon_id)  # noqa: W503
+        )
+        .first()
+    )
+    return q.name
+
+
+def pokemon_types(pokemon_id: int) -> List[t.Types]:
+    """Get Pokémon types."""
+    q = (
+        t.Types.select(t.Types, t.PokemonTypes)
+        .join(t.PokemonTypes)
+        .where(t.PokemonTypes.pokemon == pokemon_id)
+    )
+    return list(q)
+
+
+EvolutionTuple = Tuple[int, str, int]
+EvolutionChain = List[EvolutionTuple]
+EvolutionTree = Dict[EvolutionTuple, "EvolutionTree"]
+
+
+def pokemon_evolution_chain(pokemon_id: int, language: str = DEFAULT_LANGUAGE) -> EvolutionTree:
+    """Get Pokémon evolution chain."""
+    # First locate the PokemonSpecies' evolution chain.
+    evolution_chain_id = (
+        t.PokemonSpecies.select()
+        .where(t.PokemonSpecies.id == pokemon_id)
+        .first()
+        .evolution_chain_id
+    )
+    logger.debug("Evolution chain ID: {c}", c=evolution_chain_id)
+
+    # Find all PokemonSpecies in the same evolution chain.
+    q = t.PokemonSpecies.select(t.PokemonSpecies.id, t.PokemonSpecies.evolves_from_species).where(
+        t.PokemonSpecies.evolution_chain == evolution_chain_id
+    )
+    logger.debug("Query result: {q}", q=list(q))
+
+    # `chain` is a list of
+    # Tuple[PokemonSpecies.id, PokemonSpecise.name, PokemonSpecies.evolves_from_species_id]
+    chain: EvolutionChain = [
+        (row.id, pokemon_name(row.id, language), row.evolves_from_species_id) for row in q
+    ]
+    logger.debug("Chain: {chain}", chain=chain)
+
+    # `root` is the part of the chain whose `evolves_from_species_id` is None.
+    root: EvolutionTuple = next((pkmn for pkmn in chain if pkmn[2] is None))
+    logger.debug("Root: {root}", root=root)
+
+    # `tree` is a recursive dict, such as
+    # {(1, 'Bulbasaur', None): {(2, 'Ivysaur', 1): {(3, 'Venusaur', 2): {}}}}
+    tree: EvolutionTree = {root: {}}
+
+    del chain[chain.index(root)]
+    logger.debug("Chain after deleting root: {c}", c=chain)
+
+    def add_evolutions(tree: EvolutionTree, root: EvolutionTuple, chain: EvolutionChain) -> None:
+        """Add evolutions to `tree` recursively."""
+        evolutions = [pkmn for pkmn in chain if pkmn[2] == root[0]]
+        for evolution in evolutions:
+            tree[root][evolution] = {}
+            del chain[chain.index(evolution)]
+            add_evolutions(tree[root], evolution, chain)
+
+    add_evolutions(tree, root, chain)
+
+    return tree
