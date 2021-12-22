@@ -20,6 +20,6 @@ from pokemaster2 import cli
 def test_command_line_interface(options: List[str], expected: str) -> None:
     """Test the CLI."""
     runner = CliRunner()
-    result = runner.invoke(cli.main, options)
+    result = runner.invoke(cli.pmdex, options)
     assert result.exit_code == 0
     assert expected in result.output
