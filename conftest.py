@@ -57,6 +57,8 @@ SPECIES_COLUMN_NAMES = [
     "has_gender_differences",
     "growth_rate_id",
     "forms_switchable",
+    "is_legendary",
+    "is_mythical",
     "order",
     "conquest_order",
 ]
@@ -75,7 +77,7 @@ def bulbasaur(empty_db) -> t.Pokemon:
 @pytest.fixture(scope="function")
 def bulbasaur_species(empty_db) -> t.PokemonSpecies:
     """Create a bulbasaur species instance of `PokemonSpecies`."""
-    data = [1, "bulbasaur", 1, None, 1, 5, 8, 3, 1, 45, 70, 0, 20, 0, 4, 0, 1, None]
+    data = [1, "bulbasaur", 1, None, 1, 5, 8, 3, 1, 45, 50, 0, 20, 0, 4, 0, 0, 0, 1, None]
     q = t.PokemonSpecies.create(**dict(zip(SPECIES_COLUMN_NAMES, data)))
     yield q
     q.delete_instance()
