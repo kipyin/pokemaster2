@@ -6,7 +6,7 @@ from loguru import logger
 from pokemaster2 import __version__
 from pokemaster2.db import io, tables
 from pokemaster2.dex import formats
-from pokemaster2.dex._pokemon import Pokemon
+from pokemaster2.dex._pokemon import PokemonDex
 
 
 @click.group()
@@ -69,7 +69,7 @@ def cli_lookup(pokemon, shiny, mega, language, pokedex_version, format):
     db = io.get_database()
     db.bind(tables.MODELS, bind_refs=True, bind_backrefs=True)
     with db.atomic():
-        pkmn = Pokemon(pokemon, language=language, version=pokedex_version)
+        pkmn = PokemonDex(pokemon, language=language, version=pokedex_version)
         if format == "card":
             formats.card(pkmn, shiny=shiny, mega=mega)
         elif format == "page":

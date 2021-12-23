@@ -7,7 +7,7 @@ from . import resource_path
 from .exceptions import *
 
 
-class Pokemon(object):
+class PokemonDex(object):
     def __init__(self, pokemon, language=get.DEFAULT_LANGUAGE, version=get.DEFAULT_VERSION):
         try:
             self.number = pokemon
