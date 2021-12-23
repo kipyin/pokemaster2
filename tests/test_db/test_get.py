@@ -6,7 +6,7 @@ from pokemaster2.db import tables as t
 
 
 def test_get_pokemon(empty_db, bulbasaur, bulbasaur_species, growth_medium_slow):
-    """Get Pokemon."""
+    """Get Pokemon by species ID."""
     with test_utils.count_queries() as query_counter:
         q = get.pokemon(1)
         assert isinstance(q, t.Pokemon)
@@ -26,7 +26,7 @@ def test_pokedex_entry(
     version_red,
 ):
     """Get a pokedex entry."""
-    q = get.pokedex_entry(id_=1, language="en", version="red")
+    q = get.pokedex_entry(pokemon_id=1, language="en", version="red")
     assert 1 == q.species_id
     assert "Bulbasaur" == q.name
     assert "Seed Pokémon" == q.genus

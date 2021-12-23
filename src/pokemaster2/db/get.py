@@ -10,14 +10,18 @@ DEFAULT_VERSION = "diamond"
 DEFAULT_LANGUAGE = "en"
 
 
-def pokemon(id_: int) -> t.Pokemon:
+def pokemon(pokemon_id: int) -> t.Pokemon:
     """Fetch a Pokémon data by id."""
-    q = t.Pokemon.select().where(t.Pokemon.id == id_).first()
+    q = (
+        t.Pokemon.select(t.Pokemon)
+        .where((t.Pokemon.species == pokemon_id) & (t.Pokemon.is_default == True))  # noqa: E712
+        .first()
+    )
     return q
 
 
 def pokedex_entry(
-    id_: int, language: str = DEFAULT_LANGUAGE, version: str = DEFAULT_VERSION
+    pokemon_id: int, language: str = DEFAULT_LANGUAGE, version: str = DEFAULT_VERSION
 ) -> peewee.ModelRaw:
     """Get a pokedex entry."""
     q = t.Pokemon.raw(
@@ -35,7 +39,7 @@ def pokedex_entry(
                 WHERE p.species_id=?""",
         language,
         version,
-        id_,
+        pokemon_id,
     )
     return list(q)[0]
 
@@ -118,3 +122,22 @@ def pokemon_evolution_chain(pokemon_id: int, language: str = DEFAULT_LANGUAGE) -
     add_evolutions(tree, root, chain)
 
     return tree
+
+
+def minimum_experience(pokemon_id: int, level: int) -> int:
+    """Get the minimum experience of a Pokémon at a certain level."""
+    growth_rate_id = (
+        t.PokemonSpecies.select(t.PokemonSpecies.growth_rate)
+        .where(t.PokemonSpecies.id == pokemon_id)
+        .first()
+    )
+    experience = (
+        t.Experience.select(t.Experience.experience)
+        .where((t.Experience.growth_rate == growth_rate_id) & (t.Experience.level == level))
+        .first()
+    )
+    return experience
+
+
+def abilities(pokemon_id: int) -> List[t.Ability]:
+    """Get all abilities of a Pokémon."""
