@@ -64,9 +64,9 @@ def pokemon_types(pokemon_id: int) -> List[t.Types]:
     return list(q)
 
 
-EvolutionTuple = Tuple[int, str, int]
-EvolutionChain = List[EvolutionTuple]
-EvolutionTree = Dict[EvolutionTuple, "EvolutionTree"]
+EvolutionStage = Tuple[int, str, int]
+EvolutionChain = List[EvolutionStage]
+EvolutionTree = Dict[EvolutionStage, "EvolutionTree"]
 
 
 def pokemon_evolution_chain(pokemon_id: int, language: str = DEFAULT_LANGUAGE) -> EvolutionTree:
@@ -95,7 +95,7 @@ def pokemon_evolution_chain(pokemon_id: int, language: str = DEFAULT_LANGUAGE) -
 
     # `root` is the part of the chain whose `evolves_from_species_id` is None.
     try:
-        root: EvolutionTuple = next((pkmn for pkmn in chain if pkmn[2] is None))
+        root: EvolutionStage = next((pkmn for pkmn in chain if pkmn[2] is None))
     except StopIteration:
         root = chain[0]
     logger.debug("Root: {root}", root=root)
@@ -107,7 +107,7 @@ def pokemon_evolution_chain(pokemon_id: int, language: str = DEFAULT_LANGUAGE) -
     del chain[chain.index(root)]
     logger.debug("Chain after deleting root: {c}", c=chain)
 
-    def add_evolutions(tree: EvolutionTree, root: EvolutionTuple, chain: EvolutionChain) -> None:
+    def add_evolutions(tree: EvolutionTree, root: EvolutionStage, chain: EvolutionChain) -> None:
         """Add evolutions to `tree` recursively."""
         evolutions = [pkmn for pkmn in chain if pkmn[2] == root[0]]
         for evolution in evolutions:
