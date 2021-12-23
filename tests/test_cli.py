@@ -12,8 +12,8 @@ from pokemaster2 import cli
     "options,expected",
     [
         ([], "Console script for pokemaster2"),
-        (["--help"], "Usage: main [OPTIONS] COMMAND [ARGS]..."),
-        (["--version"], f"main, version { pokemaster2.__version__ }\n"),
+        (["--help"], "Usage: pmdex [OPTIONS] COMMAND [ARGS]..."),
+        (["--version"], f"pmdex, version { pokemaster2.__version__ }\n"),
         # (["load", "-U", "./pokedex.sqlite3"], ""),
     ],
 )
