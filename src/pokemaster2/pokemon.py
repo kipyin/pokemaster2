@@ -1,6 +1,6 @@
 """Base Pokemon."""
 import operator
-from typing import Callable, Sequence, Type, TypeVar, Union
+from typing import Callable, Mapping, Sequence, Type, TypeVar, Union
 
 import attr
 
@@ -175,7 +175,7 @@ class BasePokemon:
     stats: Stats
     ev: Stats
 
-    # move_set = Mapping[int, Mapping[str, Union[str, int]]]
+    move_set = Mapping[int, Mapping[str, Union[str, int]]]
     pid: str
     gender: str
     nature: str
@@ -195,16 +195,44 @@ class BasePokemon:
     #     """
     #     pass
 
-    # def level_up(self: P) -> None:
-    #     """Increase `Pokemon`'s level by 1.
+    def level_up(self: P) -> Stats:
+        """Increase `Pokemon`'s level by 1.
 
-    #     Returns:
-    #         Nothing
-    #     """
-    #     pass
+        All stats are bumped accordingly.
+
+        Returns:
+            Stats: how much the stats has been increased.
+        """
+        # Increment the level
+        self.level += 1
+
+        # Calculate the new stats after the level increment.
+        new_stats = _calc_stats(
+            level=self.level,
+            base_stats=self.base_stats,
+            iv=self.iv,
+            ev=self.ev,
+            nature=self.nature,
+        )
+
+        # Get the difference between the old stats and the new.
+        stats_diff = new_stats - self.stats
+
+        # In the case when the current hp is not full, the hp will be bumped proportionally.
+        current_hp_proportion = self.current_stats.hp / self.stats.hp
+
+        # Set the permanent stats and the current stats to the newly calculated stats.
+        self.stats = new_stats
+        self.current_stats = new_stats
+
+        # Adjust the current hp so that the relative proportion of the current / permanent
+        # stays the same.
+        self.current_stats.hp = int(new_stats.hp * current_hp_proportion)
+
+        return stats_diff
 
     # @classmethod
-    # def _from_pokedex_by_id(
+    # def blank_from_pokedex(
     #     cls: "BasePokemon",
     #     national_id: int,
     #     level: int,
@@ -240,44 +268,44 @@ class BasePokemon:
     #     Returns:
     #         A `BasePokemon` instance.
     #     """
-    # # Build pokemon data
-    # pokemon_data = _db.get_pokemon(national_id=national_id)
-    # growth_data = _db.get_experience(national_id=national_id, level=level)
-    # species_data = pokemon_data.species
-    # species = species_data.identifier
+    #     # Build pokemon data
+    #     pokemon_data = get.pokemon(pokemon_id=national_id)
+    #     growth_data = get.minimum_experience(pokemon_id=national_id, level=level)
+    #     species_data = pokemon_data.species
+    #     species = species_data.identifier
 
-    # # Determine stats
-    # gene = prng.create_gene()
-    # iv = iv or Stats.create_iv(gene=gene)
-    # ev = ev or Stats.zeros()
-    # base_stats = {}
-    # for i, stat in enumerate(STAT_NAMES):
-    #     base_stats[stat] = pokemon_data.stats[i].base_stat
-    # stats = _calc_stats(level=level, base_stats=base_stats, iv=iv, ev=ev, nature=nature)
-    # current_stats = stats
+    #     # Determine stats
+    #     gene = prng.create_gene()
+    #     iv = iv or Stats.create_iv(gene=gene)
+    #     ev = ev or Stats.zeros()
+    #     base_stats = {}
+    #     for i, stat in enumerate(STAT_NAMES):
+    #         base_stats[stat] = pokemon_data.stats[i].base_stat
+    #     stats = _calc_stats(level=level, base_stats=base_stats, iv=iv, ev=ev, nature=nature)
+    #     current_stats = stats
 
-    # # PID related attributes
-    # pid = pid or prng.create_personality()
-    # nature = nature or _db.get_nature(pid).identifier
-    # ability = ability or _db.get_ability(species=species, personality=pid).identifier
-    # gender = gender or _db.get_pokemon_gender(species=species, personality=pid).identifier
+    #     # PID related attributes
+    #     pid = pid or prng.create_personality()
+    #     nature = nature
+    #     ability = ability
+    #     gender = gender
 
-    # return cls(
-    #     pid=pid,
-    #     national_id=species_data.id,
-    #     species=species,
-    #     types=list(map(lambda x: x.identifier, pokemon_data.types)),
-    #     item_held=item_held,
-    #     exp=growth_data.experience,
-    #     level=growth_data.level,
-    #     stats=stats,
-    #     current_stats=current_stats,
-    #     ev=ev,
-    #     iv=iv,
-    #     nature=nature,
-    #     ability=ability,
-    #     gender=gender,
-    # )
+    #     return cls(
+    #         pid=pid,
+    #         national_id=species_data.id,
+    #         species=species,
+    #         types=list(map(lambda x: x.identifier, pokemon_data.types)),
+    #         item_held=item_held,
+    #         exp=growth_data.experience,
+    #         level=growth_data.level,
+    #         stats=stats,
+    #         current_stats=current_stats,
+    #         ev=ev,
+    #         iv=iv,
+    #         nature=nature,
+    #         ability=ability,
+    #         gender=gender,
+    #     )
 
 
 def _calc_stats(level: int, base_stats: Stats, iv: Stats, ev: Stats, nature: str) -> Stats:
