@@ -165,21 +165,3 @@ class BasePokemon:
     #         ability=ability,
     #         gender=gender,
     #     )
-
-
-def _calc_stats(level: int, base_stats: Stats, iv: Stats, ev: Stats, nature: str) -> Stats:
-    """Calculate the Pokemon's stats."""
-    nature_modifiers = Stats.nature_modifiers(nature)
-    residual_stats = Stats(
-        hp=10 + level,
-        atk=5,
-        def_=5,
-        spatk=5,
-        spdef=5,
-        spd=5,
-    )
-
-    stats = ((base_stats * 2 + iv + ev // 4) * level // 100 + residual_stats) * nature_modifiers
-    if base_stats.hp == 1:
-        stats.hp = 1
-    return stats
