@@ -1,4 +1,5 @@
 """Provides the pseudo-random number generator used in various places."""
+from datetime import datetime
 from typing import Generator, List, Tuple, TypeVar
 
 import attr
@@ -11,7 +12,7 @@ class PRNG:
     """A linear congruential random number generator.
 
     Usage:
-        >>> prng = PRNG()
+        >>> prng = PRNG(seed=0)
         >>> prng()
         0
         >>> prng()
@@ -22,7 +23,9 @@ class PRNG:
         https://www.smogon.com/ingame/rng/pid_iv_creation#pokemon_random_number_generator
     """
 
-    seed: int = attr.ib(validator=attr.validators.instance_of(int), default=0)
+    seed: int = attr.ib(
+        validator=attr.validators.instance_of(int), default=datetime.now().microsecond
+    )
     _gen: int = attr.ib(validator=attr.validators.in_(range(1, 8)), default=3)
     _initial_seed: int = attr.ib(init=False)
 
