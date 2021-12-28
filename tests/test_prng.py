@@ -42,3 +42,9 @@ def test_reset_prng():
 def test_pid_ivs_creation():
     prng = PRNG(seed=0x560B9CE3)
     assert (0x7E482751, 0x5EE9629C) == prng.generate_pid_and_iv(method=2)
+
+
+def test_randint():
+    prng = PRNG(seed=0)
+    prng()
+    assert 19 == prng.randint(10, 20)

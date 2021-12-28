@@ -132,3 +132,7 @@ class PRNG:
             A random number between 0 and 1.
         """
         return self() / 0x10000
+
+    def randint(self: P, low: int, high: int) -> int:
+        """Generate a random integer between `low` and `high`."""
+        return int(low + self() / 0x10000 * (high - low))
