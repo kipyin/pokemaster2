@@ -3,6 +3,7 @@ from playhouse import test_utils
 
 from pokemaster2.db import get
 from pokemaster2.db import tables as t
+from pokemaster2.stats import Stats
 
 
 def test_get_pokemon(empty_db, pokemon_data, pokemon_species_data, growth_rates_data):
@@ -68,3 +69,10 @@ def test_pokemon_by_id_or_identifier(
     assert 1 == q.id
     q = get.pokemon("bulbasaur")
     assert 1 == q.id
+
+
+def test_base_stats_and_ev_yields(empty_db, pokemon_stats_data, pokemon_forms_data, pokemon_data):
+    """Get Pokémon's base stats and ev yields from the database."""
+    base_stats, ev_yields = get.base_stats_and_ev_yields(species_id=1, form=None)
+    assert Stats(45, 49, 49, 65, 65, 45) == base_stats
+    assert Stats(0, 0, 0, 1, 0, 0) == ev_yields

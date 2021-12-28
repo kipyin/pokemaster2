@@ -1,5 +1,5 @@
 """Database queries."""
-from typing import Dict, List, Tuple, Union
+from typing import Dict, List, Optional, Tuple, Union
 
 import peewee
 from loguru import logger
@@ -163,8 +163,23 @@ def abilities(pokemon_id: int) -> List[t.Ability]:
     """Get all abilities of a Pokémon."""
 
 
-def base_stats(species_id: int, form_: str) -> Stats:
-    """Fetch and return a `Stats` instance of the Pokémon's base stats."""
+def base_stats_and_ev_yields(species_id: int, form: Optional[str] = None) -> Tuple[Stats, Stats]:
+    """Fetch and return a `Stats` instance of the Pokémon's base stats and ev yields."""
+    if form:
+        pokemon_id = t.Pokemon.select().join(
+            t.PokemonForms, on=(t.PokemonForms.form_identifier == form)
+        )
+    else:
+        pokemon_id = pokemon(species_id).id
+
+    q = t.PokemonStats.select().where(t.PokemonStats.pokemon == pokemon_id)
+    raw_base_stats = [
+        q.where(t.PokemonStats.stat == stat_id).first().base_stat for stat_id in range(1, 7)
+    ]
+    raw_ev_yields = [
+        q.where(t.PokemonStats.stat == stat_id).first().effort for stat_id in range(1, 7)
+    ]
+    return Stats(*raw_base_stats), Stats(*raw_ev_yields)
 
 
 def forms(species_id: int, language: str = DEFAULT_LANGUAGE) -> List[t.PokemonForms]:
