@@ -2,7 +2,7 @@
 
 import pytest
 
-from pokemaster2.pokemon import BasePokemon
+from pokemaster2.base_pokemon import BasePokemon
 from pokemaster2.stats import Stats
 
 
