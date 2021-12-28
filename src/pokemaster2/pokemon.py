@@ -3,9 +3,11 @@ from typing import Mapping, Sequence, TypeVar, Union
 
 import attr
 
+from pokemaster2.prng import PRNG
 from pokemaster2.stats import Stats
 
 P = TypeVar("P", bound="BasePokemon")
+prng = PRNG()
 
 
 @attr.s(auto_attribs=True)
@@ -39,20 +41,6 @@ class BasePokemon:
     gender: str
     nature: str
     ability: str
-
-    # def evolve(self: P) -> None:
-    #     """
-    #     Evolve into another Pokémon.
-
-    #     1. Statistics are updated.
-    #     2. Learnset is updated.
-    #     3. Evolution tree is updated.
-
-    #     Returns:
-    #         Nothing
-
-    #     """
-    #     pass
 
     def level_up(self: P) -> Stats:
         """Increase `Pokemon`'s level by 1.
@@ -89,79 +77,3 @@ class BasePokemon:
         self.current_stats.hp = int(new_stats.hp * current_hp_proportion)
 
         return stats_diff
-
-    # @classmethod
-    # def blank_from_pokedex(
-    #     cls: "BasePokemon",
-    #     national_id: int,
-    #     level: int,
-    #     item_held: str = None,
-    #     iv: Stats = None,
-    #     ev: Stats = None,
-    #     pid: int = None,
-    #     nature: str = None,
-    #     ability: str = None,
-    #     gender: str = None,
-    # ) -> "BasePokemon":
-    #     """Instantiate a `BasePokemon` by its national id.
-
-    #     Everything else is randomized.
-
-    #     Args:
-    #         national_id: the Pokemon's ID in the National Pokedex.
-    #         level: Pokemon's level.
-    #         item_held: Pokemon's holding item.
-    #         iv: Pokemon's individual values, `Stats`, used to determine its permanent stats.
-    #             A random IV will be set if not provided.
-    #         ev: Pokemon's effort values, `Stats`, used to determine its permanent stats. An
-    #             all-zero ev will be set if not provided.
-    #         pid: Pokemon's personality id. `nature`, `ability`, and `gender` will use
-    #             their provided value first. A random `pid` will be set if not provided.
-    #         nature: Pokemon's nature, used to determine its permanent stats. If nothing is
-    #             provided, then the function will use `pid` to determine its `nature`.
-    #         ability: Pokemon's ability, `str`. If nothing is provided, then the function
-    #             will use `pid` to determine its `nature`.
-    #         gender: Pokemon's gender.  If nothing is provided, then the function will use
-    #             `pid` to determine its `nature`.
-
-    #     Returns:
-    #         A `BasePokemon` instance.
-    #     """
-    #     # Build pokemon data
-    #     pokemon_data = get.pokemon(pokemon_id=national_id)
-    #     growth_data = get.minimum_experience(pokemon_id=national_id, level=level)
-    #     species_data = pokemon_data.species
-    #     species = species_data.identifier
-
-    #     # Determine stats
-    #     gene = prng.create_gene()
-    #     iv = iv or Stats.create_iv(gene=gene)
-    #     ev = ev or Stats.zeros()
-    #     base_stats = {}
-    #     for i, stat in enumerate(STAT_NAMES):
-    #         base_stats[stat] = pokemon_data.stats[i].base_stat
-    #     stats = _calc_stats(level=level, base_stats=base_stats, iv=iv, ev=ev, nature=nature)
-    #     current_stats = stats
-
-    #     # PID related attributes
-    #     pid = pid or prng.create_personality()
-    #     nature = nature
-    #     ability = ability
-    #     gender = gender
-
-    #     return cls(
-    #         pid=pid,
-    #         national_id=species_data.id,
-    #         species=species,
-    #         types=list(map(lambda x: x.identifier, pokemon_data.types)),
-    #         item_held=item_held,
-    #         exp=growth_data.experience,
-    #         level=growth_data.level,
-    #         stats=stats,
-    #         current_stats=current_stats,
-    #         ev=ev,
-    #         iv=iv,
-    #         nature=nature,
-    #         ability=ability,
-    #         gender=gender,
-    #     )
