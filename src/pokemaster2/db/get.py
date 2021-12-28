@@ -1,16 +1,17 @@
 """Database queries."""
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Union
 
 import peewee
 from loguru import logger
 
 from pokemaster2.db import tables as t
+from pokemaster2.stats import Stats
 
 DEFAULT_VERSION = "diamond"
 DEFAULT_LANGUAGE = "en"
 
 
-def pokemon(pokemon_id: int) -> t.Pokemon:
+def pokemon_by_id(pokemon_id: int) -> t.Pokemon:
     """Fetch a Pokémon data by id."""
     q = (
         t.Pokemon.select(t.Pokemon)
@@ -18,6 +19,25 @@ def pokemon(pokemon_id: int) -> t.Pokemon:
         .first()
     )
     return q
+
+
+def pokemon_by_identifier(identifier: str) -> t.Pokemon:
+    """Fetch a Pokémon data by its identifier."""
+    q = (
+        t.Pokemon.select(t.Pokemon)
+        .join(t.PokemonSpecies)
+        .where(t.PokemonSpecies.identifier == identifier)
+        .first()
+    )
+    return q
+
+
+def pokemon(query: Union[int, str]) -> t.Pokemon:
+    """Fetch a Pokémon data by id or identifier."""
+    if isinstance(query, int):
+        return pokemon_by_id(query)
+    elif isinstance(query, str):
+        return pokemon_by_identifier(query)
 
 
 def pokedex_entry(
@@ -141,3 +161,35 @@ def minimum_experience(pokemon_id: int, level: int) -> int:
 
 def abilities(pokemon_id: int) -> List[t.Ability]:
     """Get all abilities of a Pokémon."""
+
+
+def base_stats(species_id: int, form_: str) -> Stats:
+    """Fetch and return a `Stats` instance of the Pokémon's base stats."""
+
+
+def forms(species_id: int, language: str = DEFAULT_LANGUAGE) -> List[t.PokemonForms]:
+    """Fetch all of a Pokémon's forms.
+
+    Args:
+        species_id: int, the species' national id.
+        language: str, the language of the forms' names.
+
+    Returns:
+        List[t.PokemonForms]: a list of PokemonForms.
+    """
+    # First get all pokemon under the same species id
+    pokemon_with_same_id = (
+        t.Pokemon.select(t.Pokemon.id)
+        .join(t.PokemonSpecies)
+        .where(t.PokemonSpecies.id == species_id)
+    )
+    q = (
+        t.PokemonForms.select(t.PokemonForms, t.PokemonFormNames, t.Languages)
+        .join(t.PokemonFormNames)
+        .join(t.Languages, on=(t.Languages.identifier == language))
+        .where(
+            (t.PokemonForms.pokemon_id.in_(pokemon_with_same_id))
+            & (t.PokemonFormNames.local_language == t.Languages.id)  # noqa: W503
+        )
+    )
+    return list(q)
