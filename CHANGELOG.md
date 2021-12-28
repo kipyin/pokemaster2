@@ -10,7 +10,9 @@ Changes for the upcoming release are housed in
 
 ## [Unreleased]
 ### Added
-- Latest data from [veekun-pokedex](https://github.com/veekun/pokedex/tree/master/pokedex/data/csv), including sword & shield
+- Latest data from [veekun-pokedex](https://github.com/veekun/pokedex/tree/master/pokedex/data/csv), including sword & shield.
+- Pokédex query interface, `pmdex lookup` command.
+- `BasePokemon.level_up()` method to let the Pokémon level-up.
 
 ### Changed
 - CLI entry point has been changed from `pokemaster` to `pmdex`.
