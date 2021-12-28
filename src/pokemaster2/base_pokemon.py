@@ -1,7 +1,7 @@
 """Base Pokemon."""
 from typing import Mapping, Sequence, TypeVar, Union
 
-from attr import define
+from attrs import define
 
 from pokemaster2.prng import PRNG
 from pokemaster2.stats import Stats

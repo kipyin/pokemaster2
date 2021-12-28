@@ -4,7 +4,7 @@ import operator
 from decimal import Decimal
 from typing import Callable, Type, TypeVar, Union
 
-from attr import define, field
+from attrs import define, field
 
 from pokemaster2.prng import PRNG
 
