@@ -21,17 +21,17 @@ def test_database_empty(empty_db):
         t.Pokemon.get(id=1)
 
 
-def test_add_pokemon_to_database(empty_db, bulbasaur):
+def test_add_pokemon_to_database(empty_db, pokemon_data):
     """t.Pokemon data can be added to the database."""
     assert 1 == t.Pokemon.get_by_id(1).id
 
 
-def test_add_pokemon_species_to_database(empty_db, bulbasaur_species):
+def test_add_pokemon_species_to_database(empty_db, pokemon_species_data):
     """`t.PokemonSpecies` data can be added to the database."""
     assert 1 == t.PokemonSpecies.get_by_id(1).id
 
 
-def test_call_species_from_pokemon(empty_db, bulbasaur, bulbasaur_species):
+def test_call_species_from_pokemon(empty_db, pokemon_data, pokemon_species_data):
     """`t.Pokemon.species` should return a `t.PokemonSpecies`."""
     with playhouse.test_utils.count_queries() as query_counter:
         q = (
@@ -44,7 +44,7 @@ def test_call_species_from_pokemon(empty_db, bulbasaur, bulbasaur_species):
     assert 1 == query_counter.count
 
 
-def test_call_growth_rate_from_species(empty_db, bulbasaur_species, growth_medium_slow):
+def test_call_growth_rate_from_species(empty_db, pokemon_species_data, growth_rates_data):
     """`t.PokemonSpecies` joins the table `GrowthRate`."""
     with playhouse.test_utils.count_queries() as query_counter:
         q = (
@@ -58,7 +58,9 @@ def test_call_growth_rate_from_species(empty_db, bulbasaur_species, growth_mediu
     assert 1 == query_counter.count
 
 
-def test_call_growth_rate_from_pokemon(empty_db, bulbasaur, bulbasaur_species, growth_medium_slow):
+def test_call_growth_rate_from_pokemon(
+    empty_db, pokemon_data, pokemon_species_data, growth_rates_data
+):
     """Call `t.Pokemon().species.growth_rate` and return a `GrowthRate` instance."""
     with playhouse.test_utils.count_queries() as query_counter:
         q = (
@@ -75,7 +77,7 @@ def test_call_growth_rate_from_pokemon(empty_db, bulbasaur, bulbasaur_species, g
     assert 1 == query_counter.count
 
 
-def test_get_pokemon(empty_db, bulbasaur, bulbasaur_species):
+def test_get_pokemon(empty_db, pokemon_data, pokemon_species_data):
     """`get_pokemon` return a list of `t.Pokemon` data."""
     with playhouse.test_utils.count_queries() as query_counter:
         pokemon_set = t.get_pokemon("bulbasaur")
