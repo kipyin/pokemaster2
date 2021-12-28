@@ -25,6 +25,7 @@ class BasePokemon:
 
     national_id: int
     species: str
+    form: str
     types: Sequence[str]
     item_held: str
     exp: int
