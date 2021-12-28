@@ -1,6 +1,6 @@
 """Pytest fixtures."""
 import peewee
-import pytest
+from pytest import fixture
 
 from pokemaster2.db import tables as t
 
@@ -15,6 +15,8 @@ TEST_MODELS = [
     t.Versions,
     t.PokemonTypes,
     t.Types,
+    t.PokemonStats,
+    t.PokemonForms,
 ]
 
 
@@ -68,32 +70,53 @@ POKEMON_TYPES_FIELDS = ["pokemon_id", "type_id", "slot"]
 
 TYPES_FIELDS = ["id", "identifier", "generation_id", "damage_class_id"]
 
+POKEMON_STATS_FIELDS = ["pokemon_id", "stat_id", "base_stat", "effort"]
+
+POKEMON_FORMS_FIELDS = [
+    "id",
+    "identifier",
+    "form_identifier",
+    "pokemon_id",
+    "introduced_in_version_group_id",
+    "is_default",
+    "is_battle_only",
+    "is_mega",
+    "form_order",
+    "order",
+]
+
 # === Table data ===
 
 POKEMON_DATA = [
     [1, "bulbasaur", 1, 7, 69, 64, 1, 1],
 ]
+
 POKEMON_SPECIES_DATA = [
     [1, "bulbasaur", 1, None, 1, 5, 8, 3, 1, 45, 50, 0, 20, 0, 4, 0, 0, 0, 1, None],
     [2, "ivysaur", 1, 1, 1, 5, 8, 3, 1, 45, 50, 0, 20, 0, 4, 0, 0, 0, 2, None],
     [3, "venusaur", 1, 2, 1, 5, 8, 3, 1, 45, 50, 0, 20, 1, 4, 1, 0, 0, 3, None],
 ]
+
 POKEMON_SPECIES_NAME_DATA = [
     [1, 9, "Bulbasaur", "Seed Pokémon"],
     [2, 9, "Ivysaur", "Seed Pokémon"],
     [3, 9, "Venusaur", "Seed Pokémon"],
 ]
+
 GROWTH_RATE_DATA = [
     [4, "medium-slow", r"\frac{6x^3}{5} - 15x^2 + 100x - 140"],
 ]
+
 EVOLUTION_CHAIN_DATA = [1, None]
 
 LANGUAGE_DATA = [
     [9, "en", "us", "en", 1, 7],
 ]
+
 VERSION_DATA = [
     [1, 1, "red"],
 ]
+
 POKEMON_SPECIES_FLAVOR_TEXT_DATA = [
     [
         1,
@@ -103,10 +126,12 @@ POKEMON_SPECIES_FLAVOR_TEXT_DATA = [
         "\nand grows with\nthis POKéMON.",
     ],
 ]
+
 POKEMON_TYPES_DATA = [
     [1, 12, 1],
     [1, 4, 2],
 ]
+
 TYPES_DATA = [
     [1, "normal", 1, 2],
     [2, "fighting", 1, 2],
@@ -128,11 +153,21 @@ TYPES_DATA = [
     [18, "fairy", 6],
 ]
 
+POKEMON_STATS_DATA = [
+    [1, 1, 45, 0],
+    [1, 2, 49, 0],
+    [1, 3, 49, 0],
+    [1, 4, 65, 1],
+    [1, 5, 65, 0],
+    [1, 6, 45, 0],
+]
+
+POKEMON_FORMS_DATA = [[1, "bulbasaur", None, 1, 1, 1, 0, 0, 1, 1]]
 
 # === Database Setup ===
 
 
-@pytest.fixture()
+@fixture
 def empty_db():
     """Create, connect, and yield an empty database. Close after use."""
     db = peewee.SqliteDatabase(":memory:")
@@ -152,54 +187,54 @@ def _insert_data(table: t.BaseModel, data, fields) -> None:
     table.insert_many(data, fields=fields).execute()
 
 
-@pytest.fixture
+@fixture
 def pokemon_data():
     """Create data for `t.Pokemon`."""
     _insert_data(t.Pokemon, POKEMON_DATA, POKEMON_FIELDS)
     yield
 
 
-@pytest.fixture
+@fixture
 def pokemon_species_data():
     """Create data for `t.PokemonSpecies`."""
     _insert_data(t.PokemonSpecies, POKEMON_SPECIES_DATA, POKEMON_SPECIES_FIELDS)
     yield
 
 
-@pytest.fixture
+@fixture
 def pokemon_species_name_data():
     """Create data for `t.PokemonSpeciesNames`."""
     _insert_data(t.PokemonSpeciesNames, POKEMON_SPECIES_NAME_DATA, POKEMON_SPECIES_NAME_FIELDS)
     yield
 
 
-@pytest.fixture
+@fixture
 def growth_rates_data():
     """Create data for `t.GrowthRates`."""
     _insert_data(t.GrowthRates, GROWTH_RATE_DATA, GROWTH_RATE_FIELDS)
     yield
 
 
-@pytest.fixture
+@fixture
 def evolution_chain_data():
     """Create data for `t.EvolutionChains`."""
     _insert_data(t.EvolutionChains, EVOLUTION_CHAIN_DATA, EVOLUTION_CHAIN_FIELDS)
     yield
 
 
-@pytest.fixture
+@fixture
 def language_data():
     """Create data for `t.Language`."""
     _insert_data(t.Languages, LANGUAGE_DATA, LANGUAGE_FIELDS)
 
 
-@pytest.fixture
+@fixture
 def version_data():
     """Create data for `t.Versions`."""
     _insert_data(t.Versions, VERSION_DATA, VERSION_FIELDS)
 
 
-@pytest.fixture
+@fixture
 def pokemon_species_flavor_text_data():
     """Create data for `t.PokemonSpeciesFlavorText`."""
     _insert_data(
@@ -209,13 +244,25 @@ def pokemon_species_flavor_text_data():
     )
 
 
-@pytest.fixture
+@fixture
 def pokemon_types_data():
     """Create data for `t.PokemonTypes`."""
     _insert_data(t.PokemonTypes, POKEMON_TYPES_DATA, POKEMON_TYPES_FIELDS)
 
 
-@pytest.fixture
+@fixture
 def types_data():
     """Create data for `t.Types`."""
     _insert_data(t.Types, TYPES_DATA, TYPES_FIELDS)
+
+
+@fixture
+def pokemon_stats_data():
+    """Create data for `t.PokemonStats`."""
+    _insert_data(t.PokemonStats, POKEMON_STATS_DATA, POKEMON_STATS_FIELDS)
+
+
+@fixture
+def pokemon_forms_data():
+    """Create data for `t.PokemonForms`."""
+    _insert_data(t.PokemonForms, POKEMON_FORMS_DATA, POKEMON_FORMS_FIELDS)
