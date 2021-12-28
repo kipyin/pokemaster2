@@ -22,6 +22,7 @@ prng = PRNG()
 
 
 S = TypeVar("S", bound="Stats")
+N = TypeVar("N", bound="Nature")
 NumberLike = Union[S, int, float, Decimal]
 
 
@@ -129,6 +130,12 @@ class Stats:
         )
 
     @classmethod
+    def random_iv(cls: Type[S]) -> S:
+        """Create random IV Stats."""
+        pid, iv_gene = prng.generate_pid_and_iv(method=2)
+        return cls.create_iv(gene=iv_gene)
+
+    @classmethod
     def max_iv(cls: Type[S]) -> S:
         """Return a max IV."""
         return cls(*[31 for _ in range(6)])
@@ -164,9 +171,9 @@ class Stats:
         # return cls(**modifiers)
 
     @classmethod
-    def calc(cls: Type[S], level: int, base_stats: S, iv: S, ev: S, nature: str) -> S:
+    def calc(cls: Type[S], level: int, base_stats: S, iv: S, ev: S, nature: N) -> S:
         """Calculate a Pokemon's permanent stats."""
-        nature_modifiers = Stats.nature_modifiers(nature)
+        nature_modifiers = nature.modifiers
         residual_stats = Stats(
             hp=10 + level,
             atk=5,
@@ -182,3 +189,20 @@ class Stats:
         if base_stats.hp == 1:
             stats.hp = 1
         return stats
+
+
+@define
+class Nature:
+    """A Pokémon's nature."""
+
+    name: str
+    increase: str
+    decrease: str
+
+    @property
+    def modifiers(self: N) -> Stats:
+        """Get the nature modifiers as a `Stats` instance."""
+        nature_modifiers = dict(zip(STAT_NAMES, list("1" * 6)))
+        nature_modifiers[self.increase] = 1.1
+        nature_modifiers[self.decrease] = 0.9
+        return Stats(**nature_modifiers)
