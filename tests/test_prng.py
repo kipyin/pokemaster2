@@ -11,7 +11,7 @@ from pokemaster2.prng import PRNG
 
 
 def test_prng_generation_3():
-    prng = PRNG(gen=3)
+    prng = PRNG(gen=3, seed=0)
     prng_1 = prng()
     logger.debug("PRNG seed: {seed}", seed=prng.seed)
     logger.debug("PRNG initial seed: {initial_seed}", initial_seed=prng._initial_seed)
@@ -25,19 +25,14 @@ def test_prng_generation_exception():
         prng()
 
 
-def test_prng_default_seed_is_0():
-    prng = PRNG()
-    assert prng() == 0
-
-
 def test_next_5():
-    prng = PRNG(0x1A56B091)
+    prng = PRNG(seed=0x1A56B091)
     assert prng.next_(4) == [0x01DB, 0x7B06, 0x5233, 0xE470]
     assert prng() == 0x5CC4
 
 
 def test_reset_prng():
-    prng = PRNG()
+    prng = PRNG(seed=0)
     assert prng() == 0
     prng.next_(10)
     prng.reset()
@@ -45,5 +40,5 @@ def test_reset_prng():
 
 
 def test_pid_ivs_creation():
-    prng = PRNG(0x560B9CE3)
+    prng = PRNG(seed=0x560B9CE3)
     assert (0x7E482751, 0x5EE9629C) == prng.generate_pid_and_iv(method=2)
