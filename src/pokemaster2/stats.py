@@ -48,12 +48,12 @@ def _to_decimal(number: Union[int, float, Decimal]) -> Decimal:
 class Stats:
     """Generic stats, can be used for Pokemon stats/IV/EV."""
 
-    hp: Decimal = attr.ib(converter=_to_decimal)
-    atk: Decimal = attr.ib(converter=_to_decimal)
-    def_: Decimal = attr.ib(converter=_to_decimal)
-    spatk: Decimal = attr.ib(converter=_to_decimal)
-    spdef: Decimal = attr.ib(converter=_to_decimal)
-    spd: Decimal = attr.ib(converter=_to_decimal)
+    hp: Decimal = attr.ib(converter=_to_decimal, default=Decimal("0"))
+    atk: Decimal = attr.ib(converter=_to_decimal, default=Decimal("0"))
+    def_: Decimal = attr.ib(converter=_to_decimal, default=Decimal("0"))
+    spatk: Decimal = attr.ib(converter=_to_decimal, default=Decimal("0"))
+    spdef: Decimal = attr.ib(converter=_to_decimal, default=Decimal("0"))
+    spd: Decimal = attr.ib(converter=_to_decimal, default=Decimal("0"))
 
     def __add__(self: S, other: NumberLike) -> S:
         """Pointwise addition."""
