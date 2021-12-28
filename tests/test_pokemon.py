@@ -1,38 +1,39 @@
-"""Tests for `pokemaster2.pokemon` module."""
-from pokemaster2.pokemon import Stats
+"""Tests for `pokemaster2.pokemon`."""
+
+import pytest
+
+from pokemaster2.pokemon import BasePokemon
+from pokemaster2.stats import Stats
 
 
-def test_stats_add() -> None:
-    """Add two 'Stats' returns a new 'Stats'."""
-    assert Stats(7, 7, 7, 7, 7, 7) == Stats(1, 2, 3, 4, 5, 6) + Stats(6, 5, 4, 3, 2, 1)
+@pytest.fixture(scope="function")
+def test_base_pokemon():
+    """A test instance of `BasePokemon`."""
+    level = 50
 
+    iv = Stats.max_iv()
+    ev = Stats.zeros()
+    base_stats = Stats.random_base_stats()
+    stats = Stats.calc(level=level, base_stats=base_stats, iv=iv, ev=ev, nature="")
+    stats_leveled_up = Stats.calc(level=level + 1, base_stats=base_stats, iv=iv, ev=ev, nature="")
 
-def test_stats_subtract():
-    """Subtract one 'Stats' from another 'Stats' returns a new 'Stats'."""
-    assert Stats(0, 0, 0, 0, 0, 0) == Stats(1, 1, 1, 1, 1, 1) - Stats(1, 1, 1, 1, 1, 1)
-
-
-def test_stats_multiply():
-    """Multiply two 'Stats' returns a new 'Stats'."""
-    assert Stats(2, 4, 6, 8, 10, 12) == Stats(2, 2, 2, 2, 2, 2) * Stats(1, 2, 3, 4, 5, 6)
-
-
-def test_stats_multiply_decimal():
-    """Multiply two 'Stats' returns a new 'Stats'."""
-    assert Stats(2, 4, 6, 8, 10, 12) == Stats(2.1, 2.1, 2.1, 2.1, 2.1, 2.1) * Stats(
-        1, 2, 3, 4, 5, 6
+    base_pokemon = BasePokemon(
+        national_id=1,
+        species="test_pokemon",
+        types=["type_1", "type_2"],
+        item_held="item",
+        exp=10000,
+        level=level,
+        iv=iv,
+        ev=ev,
+        base_stats=stats,
+        current_stats=stats,
+        move_set=[],
+        pid="",
+        gender="male",
+        nature="none",
+        ability="none",
     )
-
-
-def test_stats_floor_division():
-    """Floor division works on 'Stats' point-wise."""
-    assert Stats(0, 1, 2, 2, 3, 4) == Stats(2, 4, 6, 8, 10, 12) // Stats(3, 3, 3, 3, 3, 3)
-
-
-# @pytest.mark.xfail()
-# def test_base_pokemon_from_pokedex_by_id():
-#     """`BasePokemon` can be initialized from `pokedex` by national id."""
-#     bulbasaur = BasePokemon._from_pokedex_by_id(national_id=1, level=1)
-#     assert "bulbasaur" == bulbasaur.species
-#     assert 1 == bulbasaur.level
-#     assert ["grass"] == bulbasaur.types
+    base_pokemon.level_up()
+    assert 51 == base_pokemon.level
+    assert stats_leveled_up == base_pokemon.stats
