@@ -196,3 +196,9 @@ def version(c, part, dry_run=False):
     """Bump version."""
     bump_options = ["--dry-run"] if dry_run else []
     _run(c, f"poetry run bump2version {' '.join(bump_options)} {part}")
+
+
+@task(pre=[format_, lint, hooks, call(tests, quiet=True)])
+def check(c):
+    # type: (Context) -> None
+    """Format, lint, apply hooks, and test the code."""
