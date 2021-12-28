@@ -2,12 +2,12 @@
 from datetime import datetime
 from typing import Generator, List, Tuple, TypeVar
 
-import attr
+from attr import define, field, validators
 
 P = TypeVar("P", bound="PRNG")
 
 
-@attr.s(slots=True, auto_attribs=True, cmp=False)
+@define
 class PRNG:
     """A linear congruential random number generator.
 
@@ -23,11 +23,9 @@ class PRNG:
         https://www.smogon.com/ingame/rng/pid_iv_creation#pokemon_random_number_generator
     """
 
-    seed: int = attr.ib(
-        validator=attr.validators.instance_of(int), default=datetime.now().microsecond
-    )
-    _gen: int = attr.ib(validator=attr.validators.in_(range(1, 8)), default=3)
-    _initial_seed: int = attr.ib(init=False)
+    seed: int = field(validator=validators.instance_of(int), default=datetime.now().microsecond)
+    _gen: int = field(validator=validators.in_(range(1, 8)), default=3)
+    _initial_seed: int = field(init=False)
 
     def __attrs_post_init__(self: P) -> None:
         """Record the initial seed right after instantiation."""

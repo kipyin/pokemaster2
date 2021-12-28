@@ -4,7 +4,7 @@ import operator
 from decimal import Decimal
 from typing import Callable, Type, TypeVar, Union
 
-import attr
+from attr import define, field
 
 from pokemaster2.prng import PRNG
 
@@ -44,16 +44,16 @@ def _to_decimal(number: Union[int, float, Decimal]) -> Decimal:
     return Decimal(str(number))
 
 
-@attr.s
+@define
 class Stats:
     """Generic stats, can be used for Pokemon stats/IV/EV."""
 
-    hp: Decimal = attr.ib(converter=_to_decimal, default=Decimal("0"))
-    atk: Decimal = attr.ib(converter=_to_decimal, default=Decimal("0"))
-    def_: Decimal = attr.ib(converter=_to_decimal, default=Decimal("0"))
-    spatk: Decimal = attr.ib(converter=_to_decimal, default=Decimal("0"))
-    spdef: Decimal = attr.ib(converter=_to_decimal, default=Decimal("0"))
-    spd: Decimal = attr.ib(converter=_to_decimal, default=Decimal("0"))
+    hp: Decimal = field(converter=_to_decimal, default=Decimal("0"))
+    atk: Decimal = field(converter=_to_decimal, default=Decimal("0"))
+    def_: Decimal = field(converter=_to_decimal, default=Decimal("0"))
+    spatk: Decimal = field(converter=_to_decimal, default=Decimal("0"))
+    spdef: Decimal = field(converter=_to_decimal, default=Decimal("0"))
+    spd: Decimal = field(converter=_to_decimal, default=Decimal("0"))
 
     def __add__(self: S, other: NumberLike) -> S:
         """Pointwise addition."""
