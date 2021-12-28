@@ -8,14 +8,14 @@ from attr import define, field
 
 from pokemaster2.prng import PRNG
 
-STAT_NAMES = ["hp", "atk", "def_", "spatk", "spdef", "spd"]
+STAT_NAMES = ["hp", "atk", "def_", "spa", "spd", "spe"]
 STAT_NAMES_FULL = {
     "hp": "hp",
     "attack": "atk",
     "defense": "def_",
-    "special-attack": "spatk",
-    "special-defense": "spdef",
-    "speed": "spd",
+    "special-attack": "spa",
+    "special-defense": "spd",
+    "speed": "spe",
 }
 
 prng = PRNG()
@@ -51,9 +51,9 @@ class Stats:
     hp: Decimal = field(converter=_to_decimal, default=Decimal("0"))
     atk: Decimal = field(converter=_to_decimal, default=Decimal("0"))
     def_: Decimal = field(converter=_to_decimal, default=Decimal("0"))
-    spatk: Decimal = field(converter=_to_decimal, default=Decimal("0"))
-    spdef: Decimal = field(converter=_to_decimal, default=Decimal("0"))
+    spa: Decimal = field(converter=_to_decimal, default=Decimal("0"))
     spd: Decimal = field(converter=_to_decimal, default=Decimal("0"))
+    spe: Decimal = field(converter=_to_decimal, default=Decimal("0"))
 
     def __add__(self: S, other: NumberLike) -> S:
         """Pointwise addition."""
@@ -123,9 +123,9 @@ class Stats:
             hp=gene % 32,
             atk=(gene >> 5) % 32,
             def_=(gene >> 10) % 32,
-            spd=(gene >> 16) % 32,
-            spatk=(gene >> 21) % 32,
-            spdef=(gene >> 26) % 32,
+            spe=(gene >> 16) % 32,
+            spa=(gene >> 21) % 32,
+            spd=(gene >> 26) % 32,
         )
 
     @classmethod
@@ -140,9 +140,9 @@ class Stats:
             hp=0,
             atk=0,
             def_=0,
-            spatk=0,
-            spdef=0,
+            spa=0,
             spd=0,
+            spe=0,
         )
 
     @classmethod
@@ -171,9 +171,9 @@ class Stats:
             hp=10 + level,
             atk=5,
             def_=5,
-            spatk=5,
-            spdef=5,
+            spa=5,
             spd=5,
+            spe=5,
         )
 
         stats = (

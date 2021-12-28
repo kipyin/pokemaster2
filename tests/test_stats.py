@@ -38,6 +38,6 @@ def test_random_base_stats():
     assert 1 <= s.hp <= 255
     assert 1 <= s.atk <= 255
     assert 1 <= s.def_ <= 255
-    assert 1 <= s.spatk <= 255
-    assert 1 <= s.spdef <= 255
+    assert 1 <= s.spa <= 255
     assert 1 <= s.spd <= 255
+    assert 1 <= s.spe <= 255
