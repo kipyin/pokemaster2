@@ -9,13 +9,27 @@ Changes for the upcoming release are housed in
 
 
 ## [Unreleased]
-### Added
-- Latest data from [veekun-pokedex](https://github.com/veekun/pokedex/tree/master/pokedex/data/csv), including sword & shield.
-- Pokédex query interface, `pmdex lookup` command.
-- `BasePokemon.level_up()` method to let the Pokémon level-up.
 
-### Changed
-- CLI entry point has been changed from `pokemaster` to `pmdex`.
+### Pokédex
+
+#### Changed
+
+- CLI entry point has been changed from `pokemaster2` to `pmdex`.
+
+#### Added
+
+- Pokédex query interface, `pmdex lookup` command, powered by `.dex` submodule.
+- Latest data from [veekun-pokedex](https://github.com/veekun/pokedex/tree/master/pokedex/data/csv), including sword & shield.
+
+
+### Pokemon Models
+
+#### Added
+
+- `base_pokemon.BasePokemon.level_up()` method to let the Pokémon level-up.
+- `stats.Stats` comes with handy class methods like `stats.Stats.random_base_stats()`.
+- A native nature class, `stats.Nature`.
+- Generation 3 consistent Pokémon class, `Generation3Pokemon`, inherits from `BasePokemon`.
 
 
 ## [21.12.3] - 2021-12-21
