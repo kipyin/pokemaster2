@@ -38,7 +38,7 @@ class BasePokemon:
     ev: Stats
 
     move_set = Mapping[int, Mapping[str, Union[str, int]]]
-    pid: str
+    pid: int
     gender: str
     nature: str
     ability: str
