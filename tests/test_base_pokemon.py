@@ -20,6 +20,7 @@ def test_base_pokemon():
     base_pokemon = BasePokemon(
         national_id=1,
         species="test_pokemon",
+        form="default-form",
         types=["type_1", "type_2"],
         item_held="item",
         exp=10000,
