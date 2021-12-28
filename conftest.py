@@ -104,10 +104,8 @@ POKEMON_SPECIES_FLAVOR_TEXT_DATA = [
     ],
 ]
 POKEMON_TYPES_DATA = [
-    [
-        [1, 12, 1],
-        [1, 4, 2],
-    ],
+    [1, 12, 1],
+    [1, 4, 2],
 ]
 TYPES_DATA = [
     [1, "normal", 1, 2],
@@ -151,7 +149,7 @@ def empty_db():
 
 def _insert_data(table: t.BaseModel, data, fields) -> None:
     """Execute `insert_many` commands."""
-    table.insert_many(**dict(zip(fields, data))).execute()
+    table.insert_many(data, fields=fields).execute()
 
 
 @pytest.fixture
@@ -176,7 +174,7 @@ def pokemon_species_name_data():
 
 
 @pytest.fixture
-def growth_date_data():
+def growth_rates_data():
     """Create data for `t.GrowthRates`."""
     _insert_data(t.GrowthRates, GROWTH_RATE_DATA, GROWTH_RATE_FIELDS)
     yield
