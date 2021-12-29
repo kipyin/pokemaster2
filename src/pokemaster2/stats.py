@@ -22,7 +22,6 @@ prng = PRNG()
 
 
 S = TypeVar("S", bound="Stats")
-N = TypeVar("N", bound="Nature")
 NumberLike = Union[S, int, float, Decimal]
 
 
@@ -158,22 +157,16 @@ class Stats:
         return cls(*[max(1, math.ceil(prng.random() * 255)) for _ in range(6)])
 
     @classmethod
-    def nature_modifiers(cls: Type[S], nature: str) -> S:
+    def nature_modifiers(cls: Type[S], increase: str, decrease: str) -> S:
         """Generate nature modifier Stats."""
-        # nature_data = _db.get_nature(identifier=nature)
-        # modifiers = {}
-        # for stat in STAT_NAMES:
-        #     modifiers[stat] = 1
-        # if nature_data.is_neutral:
-        #     return cls(**modifiers)
-        # modifiers[STAT_NAMES_FULL[nature_data.increased_stat.identifier]] = 1.1
-        # modifiers[STAT_NAMES_FULL[nature_data.decreased_stat.identifier]] = 0.9
-        # return cls(**modifiers)
+        nature_modifiers = dict(zip(STAT_NAMES, list("1" * 6)))
+        nature_modifiers[increase] = 1.1
+        nature_modifiers[decrease] = 0.9
+        return Stats(**nature_modifiers)
 
     @classmethod
-    def calc(cls: Type[S], level: int, base_stats: S, iv: S, ev: S, nature: N) -> S:
+    def calc(cls: Type[S], level: int, base_stats: S, iv: S, ev: S, nature_modifiers: S) -> S:
         """Calculate a Pokemon's permanent stats."""
-        nature_modifiers = nature.modifiers
         residual_stats = Stats(
             hp=10 + level,
             atk=5,
@@ -189,20 +182,3 @@ class Stats:
         if base_stats.hp == 1:
             stats.hp = 1
         return stats
-
-
-@define
-class Nature:
-    """A Pokémon's nature."""
-
-    name: str
-    increase: str
-    decrease: str
-
-    @property
-    def modifiers(self: N) -> Stats:
-        """Get the nature modifiers as a `Stats` instance."""
-        nature_modifiers = dict(zip(STAT_NAMES, list("1" * 6)))
-        nature_modifiers[self.increase] = 1.1
-        nature_modifiers[self.decrease] = 0.9
-        return Stats(**nature_modifiers)
