@@ -22,8 +22,8 @@ class DNA:
     def random(cls: Type[D]) -> D:
         """Create a DNA data from a random number generator."""
         return cls(
-            pid := secrets.randbelow(0xFFFFFFFF),
-            iv=secrets.randbelow(0xFFFFFFFF),
+            pid := secrets.randbelow(0xA00000000),  # 0xFFFFFFFF + 1
+            iv=secrets.randbelow(0xA00000000),
             nature_index=pid % 25,
             ability_index=pid % 2,
             gender_index=pid % 0xFF,
