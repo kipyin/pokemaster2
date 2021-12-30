@@ -3,11 +3,9 @@ from typing import Mapping, Sequence, TypeVar, Union
 
 from attrs import define
 
-from pokemaster2.prng import PRNG
 from pokemaster2.stats import Stats
 
 P = TypeVar("P", bound="BasePokemon")
-prng = PRNG()
 
 
 @define
