@@ -1,5 +1,5 @@
 """Tests for pokemaster2.dna module."""
-from pokemaster2.dna import DNA
+from pokemaster2.base.dna import DNA
 
 
 def test_random_dna_consistency():

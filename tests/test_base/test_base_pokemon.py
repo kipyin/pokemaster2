@@ -2,8 +2,8 @@
 
 import pytest
 
-from pokemaster2.base_pokemon import BasePokemon
-from pokemaster2.stats import Stats
+from pokemaster2.base.pokemon import BasePokemon
+from pokemaster2.base.stats import Stats
 
 
 @pytest.fixture(scope="function")

@@ -7,7 +7,7 @@ https://www.smogon.com/ingame/rng/pid_iv_creation#pokemon_random_number_generato
 import pytest
 from loguru import logger
 
-from pokemaster2.prng import PRNG
+from pokemaster2.base.prng import PRNG
 
 
 def test_prng_generation_3():

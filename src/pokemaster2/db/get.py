@@ -4,8 +4,8 @@ from typing import Dict, List, Optional, Tuple, Union
 import peewee
 from loguru import logger
 
+from pokemaster2.base.stats import Stats
 from pokemaster2.db import tables as t
-from pokemaster2.stats import Stats
 
 DEFAULT_VERSION = "diamond"
 DEFAULT_LANGUAGE = "en"

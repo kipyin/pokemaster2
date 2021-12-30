@@ -3,7 +3,7 @@ from typing import Mapping, Sequence, TypeVar, Union
 
 from attrs import define
 
-from pokemaster2.stats import Stats
+from pokemaster2.base.stats import Stats
 
 P = TypeVar("P", bound="BasePokemon")
 

@@ -3,17 +3,14 @@ from typing import Optional, Type, TypeVar
 
 from attrs import define
 
-from pokemaster2.base_pokemon import BasePokemon
+from pokemaster2.base.dna import DNA
+from pokemaster2.base.pokemon import BasePokemon
+from pokemaster2.base.stats import Stats
 from pokemaster2.db import get
-from pokemaster2.prng import PRNG
-from pokemaster2.stats import Stats
 
 # from pokemaster2.stats import Stats
 
 P = TypeVar("P", bound="Generation3Pokemon")
-
-
-prng = PRNG()
 
 
 @define
@@ -34,6 +31,9 @@ class Generation3Pokemon(BasePokemon):
         pid: Optional[int] = None,
         iv: Optional[Stats] = None,
         ev: Optional[Stats] = None,
+        # nature: Optional[Stats] = None,
+        # ability: Optional[str] = None,
+        # gender: Optional[str] = None,
     ) -> P:
         """Create a generation-3 Pokémon from the pokedex data with sensible defaults."""
         language = language or get.DEFAULT_LANGUAGE
@@ -60,15 +60,19 @@ class Generation3Pokemon(BasePokemon):
             # both level and exp are set, no modification needed.
             pass
 
-        # Determine the Pokémon's personality value and IV.
-        if pid is None:
-            pid, iv_gene = prng.generate_pid_and_iv(method=2)
-        else:
-            _, iv_gene = prng.generate_pid_and_iv(method=2)
+        # Determine the Pokémon's DNA.
+        dna = DNA.random()
+        pid = pid or dna.pid
+        iv_index = dna.iv
 
         # Set IV and EV.
-        iv = iv or Stats.create_iv(gene=iv_gene)
+        iv = iv or Stats.iv(iv_index=iv_index)
         ev = ev or Stats.zeros()
+
+        # Nature, ability, gender
+        nature = dna.nature_index
+        ability = dna.ability_index
+        gender = dna.gender_index
 
         # Calculate the stats.
         base_stats, ev_yields = get.base_stats_and_ev_yields(species_id=national_id, form=form)
@@ -90,4 +94,7 @@ class Generation3Pokemon(BasePokemon):
             ev=ev,
             stats=stats,
             current_stats=current_stats,
+            nature=nature,
+            ability=ability,
+            gender=gender,
         )

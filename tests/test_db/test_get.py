@@ -1,9 +1,9 @@
 """Tests for `pokemaster2.db.get`."""
 from playhouse import test_utils
 
+from pokemaster2.base.stats import Stats
 from pokemaster2.db import get
 from pokemaster2.db import tables as t
-from pokemaster2.stats import Stats
 
 
 def test_get_pokemon(empty_db, pokemon_data, pokemon_species_data, growth_rates_data):
