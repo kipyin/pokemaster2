@@ -57,24 +57,24 @@ class Stats:
 
     def __add__(self: S, other: NumberLike) -> S:
         """Pointwise addition."""
-        return self._make_operator(operator.add, other)
+        return self._pointwise(operator.add, other)
 
     def __sub__(self: S, other: NumberLike) -> S:
         """Pointwise subtraction."""
-        return self._make_operator(operator.sub, other)
+        return self._pointwise(operator.sub, other)
 
     def __mul__(self: S, other: NumberLike) -> S:
         """Pointwise multiplication."""
-        return self._make_operator(operator.mul, other)
+        return self._pointwise(operator.mul, other)
 
     def __floordiv__(self: S, other: NumberLike) -> S:
         """Pointwise floor division."""
-        return self._make_operator(operator.floordiv, other)
+        return self._pointwise(operator.floordiv, other)
 
     __radd__ = __add__
     __rmul__ = __mul__
 
-    def _make_operator(
+    def _pointwise(
         self: S,
         operator: Callable[[int, int], int],
         other: NumberLike,
