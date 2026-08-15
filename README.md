@@ -31,10 +31,23 @@ Get Real, Living™ Pokémon in Python
 Currently, there is not much you can do with `pokemaster`, but more features are actively being added!
 
 * Load pokemon data from csv to a sqlite database.
+* Generation 3 PRNG (PID / IV) and `Stats` helpers for battle-stat math.
+
+## Status & continuation
+
+This project last saw feature work around **late 2021** (Pre-Alpha). A full codebase review and a practical roadmap for picking it back up live in:
+
+* [docs/continuation-plan.md](docs/continuation-plan.md) (中文)
 
 ## Quickstart
 
-TODO
+```bash
+poetry install
+# Load bundled CSVs into a SQLite file (paths optional; defaults under src/data)
+poetry run pokemaster2 load -U ./pokedex.sqlite3
+```
+
+Programmatic Pokémon construction (`Pokemon(national_id=1, level=5)`) is the main goal but **not wired yet** — see the continuation plan, Milestone 1.
 
 ## Credits
 
