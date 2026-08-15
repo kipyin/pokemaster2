@@ -20,6 +20,7 @@
 
 Get Real, Living™ Pokémon in Python
 
+**Product intent:** a **playable text / command-line Pokémon-style game** first (`pokemaster2 play`), on a **UI-agnostic game core** so a later desktop raiser/battler can reuse the same rules—not a Pokédex client alone.
 
 * GitHub repo: <https://github.com/kipyin/pokemaster2.git>
 * Documentation: <https://pokemaster2.readthedocs.io>
@@ -28,14 +29,15 @@ Get Real, Living™ Pokémon in Python
 
 ## Features
 
-Currently, there is not much you can do with `pokemaster`, but more features are actively being added!
+Currently, there is not much you can do with `pokemaster` — the playable CLI loop is **not built yet**.
 
-* Load pokemon data from csv to a sqlite database.
-* Generation 3 PRNG (PID / IV) and `Stats` helpers for battle-stat math.
+* Dev tool: load Pokémon CSV data into a SQLite database (`pokemaster2 load`)
+* Engine seeds: Generation 3 PRNG (PID / IV) and `Stats` helpers
+* Planned: `pokemaster2 play` — starter, wild encounter, menu battle, then a short journey; optional desktop shell later on the same core
 
 ## Status & continuation
 
-This project last saw feature work around **late 2021** (Pre-Alpha). A full codebase review and a practical roadmap for picking it back up live in:
+This project last saw feature work around **late 2021** (Pre-Alpha). Roadmap: CLI-first playable loop + portable core (desktop is a second shell, not a rewrite):
 
 * [docs/continuation-plan.md](docs/continuation-plan.md) (中文)
 
@@ -43,11 +45,11 @@ This project last saw feature work around **late 2021** (Pre-Alpha). A full code
 
 ```bash
 poetry install
-# Load bundled CSVs into a SQLite file (paths optional; defaults under src/data)
+# Data maintenance only (not the game):
 poetry run pokemaster2 load -U ./pokedex.sqlite3
+# Planned:
+# poetry run pokemaster2 play
 ```
-
-Programmatic Pokémon construction (`Pokemon(national_id=1, level=5)`) is the main goal but **not wired yet** — see the continuation plan, Milestone 1.
 
 ## Credits
 
