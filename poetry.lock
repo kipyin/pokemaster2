@@ -965,14 +965,24 @@ files = [
 
 [[package]]
 name = "peewee"
-version = "3.14.8"
+version = "4.5.0"
 description = "a little orm"
 optional = false
-python-versions = "*"
+python-versions = ">=3.8"
 groups = ["main"]
 files = [
-    {file = "peewee-3.14.8.tar.gz", hash = "sha256:01bd7f734defb08d7a3346a0c0ca7011bc8d0d685934ec0e001b3371d522ec53"},
+    {file = "peewee-4.5.0-py3-none-any.whl", hash = "sha256:b210911b0535be1b7c0d1e1a276770575150c8dc981bff92eef494595a51696c"},
+    {file = "peewee-4.5.0.tar.gz", hash = "sha256:4432dc35adc1c159b286205cddce6cff42adf0508e276f17dc57342bafcd0a72"},
 ]
+
+[package.extras]
+aiomysql = ["aiomysql", "greenlet"]
+aiosqlite = ["aiosqlite", "greenlet"]
+asyncpg = ["asyncpg", "greenlet"]
+cysqlite = ["cysqlite (>=0.3.5)"]
+mysql = ["pymysql"]
+postgres = ["psycopg2-binary"]
+psycopg3 = ["psycopg[binary]"]
 
 [[package]]
 name = "platformdirs"
@@ -1704,4 +1714,4 @@ testing = ["func-timeout", "jaraco.itertools", "pytest (>=4.6)", "pytest-black (
 [metadata]
 lock-version = "2.1"
 python-versions = "<3.11,>=3.8"
-content-hash = "c291f0b0832d3993dd50796a4e68cd06de3f60a3c3f208fcfcf117577331d129"
+content-hash = "29c91d350355bdf589c62bb9e5a415c7b32de2f9e5f3cd1af0b67a7bf7a355ed"
